@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+*.sqlite3
+blog/__pycache__/
+victorlaputskyproject/__pycache__/
