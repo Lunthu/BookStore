@@ -2,40 +2,77 @@ from django.db import models
 
 
 class Users(models.Model):
-
-    loginname = models.CharField(max_length = 512, unique = True)
-    firstname = models.CharField(max_length = 512)
-    lastname = models.CharField(max_length = 512)
-    email = models.EmailField(max_length = 512, unique = True)
+    id = models.AutoField(primary_key=True)
+    login = models.CharField(max_length=512, unique=True)
+    firstname = models.CharField(max_length=512)
+    lastname = models.CharField(max_length=512)
+    email = models.EmailField(max_length=512, unique=True)
 
     def __str__(self):
-        return 'Login: {o.loginname} \nFirst Name: {o.firstname} \nLast Name: {o.lastname} \nEmail: {o.email}'.format(o = self)
+        return 'Login: {o.login} \nFirst Name: {o.firstname} \nLast Name: {o.lastname} \nEmail: {o.email}\n'.format(o = self)
 
 
 class Items(models.Model):
+    item_name = models.CharField(max_length=512, unique=True)
+    author_id = models.ForeignKey('Authors', to_field='id')
+    item_price = models.IntegerField(default='100')
+    release_date = models.DateField(default='2016-12-12')
+    item_status = models.ForeignKey('ItemStatusList', to_field='item_status')
+    item_tags = models.CharField(max_length=512)
+    item_rating = models.DecimalField(max_digits=2,decimal_places=1)
 
-    item_name = models.CharField(max_length = 512, unique = True)
-    author_id = None
-    item_price = models.IntegerField()
-    release_date = None
-    item_status = None
-    item_tags = None
+    def __str__(self):
+        return 'Item: {o.item_name} \nPrice: {o.item_price} \nRelease Date: {o.release_date} \n'.format(o=self)
 
 
 class Authors(models.Model):
-    author_name = models.CharField(max_length = 512, unique = True)
+    author_name = models.CharField(max_length=512, unique=True)
+
+    def __str__(self):
+        return self.author_name
 
 
 class Orders(models.Model):
-    order_date = None
-    user_id = None
-    total_price = None
-    order_status = None
+    order_date = models.DateField(default = '2016-12-12')
+    user_id = models.ForeignKey('Users', to_field = 'id')
+    total_price = models.IntegerField(default = '100')
+    order_status = models.ForeignKey('OrderStatusList', to_field='order_status')
+
+    def __str__(self):
+        return 'ID: {o.id} \nOrder Date: {o.order_date} \nPrice: {o.total_price}\n'.format(o = self)
 
 
 class ItemOrders(models.Model):
-    order_id = None
-    item_id = None
+    order_id = models.ForeignKey('Orders', to_field='id')
+    item_id = models.ForeignKey('Items', to_field='id')
+
+    def __str__(self):
+        return 'Order ID: {o.order_id} \nItem ID: {o.item_id}\n'.format(o=self)
+
+
+
+class ItemStatusList(models.Model):
+    item_status = models.CharField(max_length=30, unique=True)
+
+    def __str__(self):
+        return self.item_status
+
+class OrderStatusList(models.Model):
+    order_status = models.CharField(max_length=30, unique=True)
+
+    def __str__(self):
+        return self.order_status
+
+
+class Comments(models.Model):
+    user_id = models.ForeignKey('Users', to_field='id')
+    item_id = models.ForeignKey('Items', to_field='id')
+    comment_date = models.DateTimeField(auto_now=True)
+    comment_text = models.TextField(max_length=512)
+
+    def __str__(self):
+        return 'User: {o.user_id}, Item: {o.item_id}, Date: {o.comment_date}, Text: {o.comment_text}'.format(o=self)
+
 
 
 class RecommendationMatrix:
