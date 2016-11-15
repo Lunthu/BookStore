@@ -17,7 +17,7 @@ class Items(models.Model):
     author_id = models.ForeignKey('Authors', to_field='id')
     item_price = models.IntegerField(default='100')
     release_date = models.DateField(default='2016-12-12')
-    item_status = models.ForeignKey('ItemStatusList', to_field='item_status')
+    item_status =  models.CharField(max_length=1, choices=[('a', 'Avialable'),('n', 'Not Avialable')])
     item_tags = models.CharField(max_length=512)
     item_rating = models.DecimalField(max_digits=2,decimal_places=1)
 
@@ -36,7 +36,8 @@ class Orders(models.Model):
     order_date = models.DateField(default = '2016-12-12')
     user_id = models.ForeignKey('Users', to_field = 'id')
     total_price = models.IntegerField(default = '100')
-    order_status = models.ForeignKey('OrderStatusList', to_field='order_status')
+    order_status = models.CharField(max_length=2, choices=[('p', 'Packing'),('d', 'Delivering'),('dd', 'Delivered')])
+
 
     def __str__(self):
         return 'ID: {o.id} \nOrder Date: {o.order_date} \nPrice: {o.total_price}\n'.format(o = self)
@@ -48,20 +49,6 @@ class ItemOrders(models.Model):
 
     def __str__(self):
         return 'Order ID: {o.order_id} \nItem ID: {o.item_id}\n'.format(o=self)
-
-
-
-class ItemStatusList(models.Model):
-    item_status = models.CharField(max_length=30, unique=True)
-
-    def __str__(self):
-        return self.item_status
-
-class OrderStatusList(models.Model):
-    order_status = models.CharField(max_length=30, unique=True)
-
-    def __str__(self):
-        return self.order_status
 
 
 class Comments(models.Model):
