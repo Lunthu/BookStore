@@ -11,16 +11,6 @@ class Users(models.Model):
     def __str__(self):
         return 'Login: {o.login} \nFirst Name: {o.firstname} \nLast Name: {o.lastname} \nEmail: {o.email}\n'.format(o=self)
 
-class Profile(models.Model):
-    cv = models.FileField(upload_to='cv/')
-    age = models.IntegerField(default=0)
-    is_married = models.BooleanField()
-
-    def __str__(self):
-        return str(self.age)
-
-
-
 
 class Items(models.Model):
     item_name = models.CharField(max_length=512, unique=True)
