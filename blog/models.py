@@ -14,11 +14,11 @@ class Users(models.Model):
 
 class Items(models.Model):
     item_name = models.CharField(max_length=512, unique=True)
-    author_id = models.ForeignKey('Authors', to_field='id')
+    author_id = models.ForeignKey('Authors')
     item_price = models.IntegerField(default='100')
     release_date = models.DateField(default='2016-12-12')
     item_status = models.CharField(max_length=2, choices=[('a', 'Avialable'),('na', 'Not Avialable')])
-    item_tags = models.CharField(max_length=512)
+    item_tags = models.CharField(max_length=512, blank=True)
     item_rating = models.DecimalField(max_digits=2,decimal_places=1)
 
     def __str__(self):
@@ -35,19 +35,22 @@ class Authors(models.Model):
 class Orders(models.Model):
     order_date = models.DateField(default = '2016-12-12')
     order_adress = models.CharField(max_length=100, default='None')
-    user_id = models.ForeignKey('Users', to_field = 'id')
+    user_id = models.ForeignKey('Users')
     item_count = models.ManyToManyField('Items', related_name='p')
-    total_price = models.IntegerField(default = '100')
     order_status = models.CharField(max_length=2, choices=[('p', 'Packing'),('d', 'Delivering'),('dd', 'Delivered')])
     order_comment = models.TextField(max_length=512, blank=True)
 
+    @property
+    def count(self):
+        return self.item_count.count()
+
     def __str__(self):
-        return 'ID: {o.id} \nOrder Date: {o.order_date} \nPrice: {o.total_price}\n'.format(o = self)
+        return 'ID: {o.id} \nOrder Date: {o.order_date} \n Items: {o.item_count}'.format(o=self)
 
 
 class Comments(models.Model):
-    user_id = models.ForeignKey('Users', to_field='id')
-    item_id = models.ForeignKey('Items', to_field='id')
+    user_id = models.ForeignKey('Users')
+    item_id = models.ForeignKey('Items')
     comment_date = models.DateTimeField(auto_now=True)
     comment_text = models.TextField(max_length=512)
 
@@ -58,7 +61,6 @@ class Comments(models.Model):
 
 class RecommendationMatrix:
     pass
-
 
 
 # Create your models here.

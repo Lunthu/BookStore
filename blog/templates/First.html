@@ -5,6 +5,10 @@
     <title></title>
 </head>
 <body>
-{{ userlist }}
+{% for o in orders %}
+{{ o.count }}
+{% endfor %}
+
+
 </body>
 </html>
