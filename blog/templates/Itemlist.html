@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for item in itemlist %}
+    <div><a href="{% url 'item' item_id=item.id %}">{{ item }}</a></div>
+{% endfor %}
+</body>
+</html>

@@ -18,7 +18,7 @@ class Items(models.Model):
     item_price = models.IntegerField(default='100')
     release_date = models.DateField(default='2016-12-12')
     item_status = models.CharField(max_length=2, choices=[('a', 'Avialable'),('na', 'Not Avialable')])
-    item_tags = models.CharField(max_length=512, blank=True)
+    item_tags = models.ManyToManyField('Tags', related_name='p')
     item_rating = models.DecimalField(max_digits=2,decimal_places=1)
 
     def __str__(self):
@@ -57,6 +57,11 @@ class Comments(models.Model):
     def __str__(self):
         return 'User: {o.user_id}, Item: {o.item_id}, Date: {o.comment_date}, Text: {o.comment_text}'.format(o=self)
 
+class Tags(models.Model):
+    tag_name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.tag_name
 
 
 class RecommendationMatrix:
