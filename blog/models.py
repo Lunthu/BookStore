@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Users(models.Model):
@@ -20,6 +21,9 @@ class Items(models.Model):
     item_status = models.CharField(max_length=2, choices=[('a', 'Avialable'),('na', 'Not Avialable')])
     item_tags = models.ManyToManyField('Tags', related_name='p')
     item_rating = models.DecimalField(max_digits=2,decimal_places=1)
+
+    def get_absolute_url(self):
+        return reverse('item', args=(self.id,))
 
     def __str__(self):
         return 'Item: {o.item_name} \nPrice: {o.item_price} \nRelease Date: {o.release_date} \n'.format(o=self)

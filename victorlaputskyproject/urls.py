@@ -15,15 +15,20 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+import blog.views as views
 from blog.views import OrdersView, UserView, MainPage, UserList, ItemView, ItemList
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', MainPage.as_view(), name='main'),
     url(r'^orders/$', OrdersView.as_view(), name='orders'),
     url(r'^userlist/$', UserList.as_view(), name='users'),
-    url(r'^itemlist/$', ItemList.as_view(), name='items'),
+    url(r'^itemlist/$', ItemList.as_view(), name='item'),
     url(r'^item/(?P<item_id>[0-9]+)/$', ItemView.as_view(), name='item'),
-    url(r'^user/(?P<user_id>[0-9]+)/$', UserView.as_view(), name = 'user')
+    url(r'^user/(?P<user_id>[0-9]+)/$', UserView.as_view(), name='user'),
+    url(r'^title/(?P<title>[a-zA-Z0-9]+)/$', views.title, name='time'),
+    url(r'^rrr-(?P<id>[0-9]+)$', views.simple2),
+    url(r'^item/first_book$', views.simple3),
+    url(r'^$', views.simple, name='main')
+
 
 ]
