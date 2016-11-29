@@ -1,16 +1,7 @@
 from django.db import models
-
-
-class Users(models.Model):
-    id = models.AutoField(primary_key=True)
-    login = models.CharField(max_length=512, unique=True)
-    firstname = models.CharField(max_length=512)
-    lastname = models.CharField(max_length=512)
-    email = models.EmailField(max_length=512, unique=True)
-
-    def __str__(self):
-        return 'Login: {o.login} \nFirst Name: {o.firstname} \nLast Name: {o.lastname} \nEmail: {o.email}\n'.format(o=self)
-
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, UsernameField
+from django import forms
 
 class Items(models.Model):
     item_name = models.CharField(max_length=512, unique=True)
@@ -35,7 +26,7 @@ class Authors(models.Model):
 class Orders(models.Model):
     order_date = models.DateField(default = '2016-12-12')
     order_adress = models.CharField(max_length=100, default='None')
-    user_id = models.ForeignKey('Users')
+    user_id = models.ForeignKey(User)
     item_count = models.ManyToManyField('Items', related_name='p')
     order_status = models.CharField(max_length=2, choices=[('p', 'Packing'),('d', 'Delivering'),('dd', 'Delivered')])
     order_comment = models.TextField(max_length=512, blank=True)
@@ -49,7 +40,7 @@ class Orders(models.Model):
 
 
 class Comments(models.Model):
-    user_id = models.ForeignKey('Users')
+    user_id = models.ForeignKey(User)
     item_id = models.ForeignKey('Items')
     comment_date = models.DateTimeField(auto_now=True)
     comment_text = models.TextField(max_length=512)
@@ -62,6 +53,21 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.tag_name
+
+class RegistrationForm(UserCreationForm):
+
+    class Meta:
+        model = User
+        fields = ("username","email", "first_name", "last_name")
+        field_classes = {'username': UsernameField, 'email': forms.EmailField, 'first_name': forms.CharField, 'last_name': forms.CharField}
+
+    def save(self, commit=True):
+        user = super(RegistrationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
 
 
 class RecommendationMatrix:
