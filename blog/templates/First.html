@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>BookStore</title>
-</head>
-<body>
-<header>
-<h1>Home Page</h1>
-<a href = {% url 'register' %}> Register </a>
-<a href = {% url 'login' %}> Login </a>
-</header>
-<br>
-<br>
-<br>
-<br>
+{% extends "index.html" %}
+{% block content %}
+
 <a href = {% url 'users' %}> Go to list of users </a>
 <br>
 <a href = {% url 'orders' %}> Go to list of orders </a>
 <br>
 <a href = {% url 'items' %}> Go to list of items </a>
-</body>
-</html>
+{% endblock %}

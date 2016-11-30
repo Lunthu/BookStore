@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load staticfiles %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+<title>{% block head_title %}{% endblock %}BookStore - Your  knoledge engine #1</title>
+<link rel="stylesheet" href="{% static 'css/stylesheet.css' %}" type="text/css">
+    <style>
+ A {
+    text-decoration: none; /* Убирает подчеркивание для ссылок */
+     color: white;
+   }
+   A:hover {
+    text-decoration: underline; /* Добавляем подчеркивание при наведении курсора на ссылку */
+    color: white; /* Ссылка красного цвета */
+   }
+</style>
+</head>
+
+<body>
+<div id="top_bar_black"> <div id="logo_container"> <div id="logo_image"> </div>  <div id="nav_block">
+        <div class="nav_button" ><a href = {% url 'main' %}>Home </a></div>
+	    <div class="nav_button"> <a href = {% url 'items' %}> Books </a></div>
+		<div class="nav_button" link=""> <a href = {% url 'orders' %}>My Orders</a></div>
+		<div class="nav_button"> <a href = {% url 'register' %}> Register</a></div>
+		<div class="nav_button"> <a href = {% url 'login' %}> Login </a></div>
+	  </div>
+</div> </div>
+        <div id="content_container">
+		{% block content %}
+
+		{% endblock %}
+    
+        </div>
+        
+        
+        
+<div id="bottom_bar_black"> <div id="main_container">
+	<div id="header_lower">  <div id="header_content_lowerline">Наши контакты
+	    <div id="header_content_lowerboxcontent">ул. Пушкина, д. 13<br />
+	     г. Минск<br />
+        111-22-33<BR />
+        80(29)111-22-33<BR />
+        info@domainhappy.by<br />
+        www.domainhappy.by<br />
+        01982 698 621<BR /> 
+        </div>
+	</div> 
+          </div>
+          
+          <div id="header_lower">  <div id="header_content_lowerline">О нас
+            <div id="header_content_lowerboxcontent">BookStore - магазин книг и печатной продукции. Наши верные читатели - главное, что есть у нас, и мы заинтересованы в том, чтобы у них был доступ ко всей интересующей их литературе. Наш магазин осуществляет доставку по всей Беларуси менее чем за 2 дня. Мы сотрудничаем со всеми крупными издателями СНГ.</div>
+	</div> 
+          </div>
+
+
+</div> 
+</div>
+ 
+
+</body>
+</html>
