@@ -1,11 +1,12 @@
 {% extends "index.html" %}
-{% block content %}
+
 {%  block head_title %}
     Ваши заказы
 {% endblock %}
+
+{% block content %}
 <body>
 {% if user.is_authenticated %}
-<a href= {% url 'users' %}>go to user list</a>
 <br>
 {{ orders }}
 {% endif %}

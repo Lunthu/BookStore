@@ -6,7 +6,6 @@ from blog.forms import RegistrationForm, BookForm, CommentForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 
-
 class MainPage(TemplateView):
     template_name = 'First.html'
 
@@ -111,8 +110,11 @@ class OrdersView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(OrdersView, self).get_context_data(**kwargs)
-        j = Orders.objects.get(user_id=User.id)
-        #j = users.objects.filter(id=kwargs['user_id'])
-        context['users'] = j
+        try:
+            j = Orders.objects.get(user_id=1)
+            #j = users.objects.filter(id=kwargs['user_id'])
+            context['orders'] = j
+        except Vehicle.vehicledevice.device.DoesNotExist:
+            context['orders'] = 'У вас нет заказов'
         return context
 
