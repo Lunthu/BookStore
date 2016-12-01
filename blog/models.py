@@ -1,12 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, UsernameField
-from django import forms
 
 class Items(models.Model):
     item_name = models.CharField(max_length=512, unique=True)
     author_id = models.ForeignKey('Authors')
     item_price = models.IntegerField(default='100')
+    item_description = models.TextField(blank=True, max_length=512)
     release_date = models.DateField(default='2016-12-12')
     item_status = models.CharField(max_length=2, choices=[('a', 'Avialable'),('na', 'Not Avialable')])
     item_tags = models.ManyToManyField('Tags', related_name='p')
@@ -28,7 +27,7 @@ class Orders(models.Model):
     order_adress = models.CharField(max_length=100, default='None')
     user_id = models.ForeignKey(User)
     item_count = models.ManyToManyField('Items', related_name='p')
-    order_status = models.CharField(max_length=2, choices=[('p', 'Packing'),('d', 'Delivering'),('dd', 'Delivered')])
+    order_status = models.CharField(max_length=2, choices=[('p', 'Packing'),('d', 'Delivering'),('f', 'Delivered'), ('c', 'Cancelled')])
     order_comment = models.TextField(max_length=512, blank=True)
 
     @property
@@ -53,21 +52,6 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.tag_name
-
-class RegistrationForm(UserCreationForm):
-
-    class Meta:
-        model = User
-        fields = ("username","email", "first_name", "last_name")
-        field_classes = {'username': UsernameField, 'email': forms.EmailField, 'first_name': forms.CharField, 'last_name': forms.CharField}
-
-    def save(self, commit=True):
-        user = super(RegistrationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
-        if commit:
-            user.save()
-        return user
-
 
 
 class RecommendationMatrix:

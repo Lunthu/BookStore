@@ -1,12 +1,12 @@
 {% extends "index.html" %}
+
+{%  block head_title %}
+   Доступные книги
+{% endblock %}
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <title>Full list of Items</title>
-</head>
 <body>
 {% for item in itemlist %}
-    <div><a href="{% url 'item' item_id=item.id %}">{{ item }}</a></div>
+    <div><a href="{% url 'item' item_id=item.id %}">{{ item.item_name }}</a>{{ item.item_price }} {{ item.item_status }}</div>
 {% endfor %}
 </body>
 {% endblock %}

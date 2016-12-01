@@ -1,9 +1,9 @@
 {% extends "index.html" %}
+{%  block head_title %}
+    Главная страница
+{% endblock %}
 {% block content %}
 
-<a href = {% url 'users' %}> Go to list of users </a>
-<br>
-<a href = {% url 'orders' %}> Go to list of orders </a>
-<br>
-<a href = {% url 'items' %}> Go to list of items </a>
+Привет, мир!
+
 {% endblock %}

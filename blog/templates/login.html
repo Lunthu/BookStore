@@ -1,8 +1,8 @@
 {% extends "index.html" %}
+{% block head_title %}
+    Авторизация
+{% endblock %}
 {% block content %}
-  <head>
-    <title>Login</title>
-  </head>
   <body>
     <form action="" method="post">
       {% csrf_token %}

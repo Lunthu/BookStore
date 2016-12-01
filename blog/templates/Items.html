@@ -1,10 +1,8 @@
 {% extends "index.html" %}
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Item</title>
-</head>
+{%  block head_title %}
+    {{ items.item_name }}
+{% endblock %}
 <body>
 {{ items }}
 </body>

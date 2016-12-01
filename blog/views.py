@@ -1,14 +1,16 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
+from django.views.generic.base import View
 from blog.models import Orders, Items
+from blog.forms import RegistrationForm, BookForm, CommentForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 class MainPage(TemplateView):
     template_name = 'First.html'
 
-class UserList(TemplateView):
+class UserList(FormView):
     template_name = 'Userlist.html'
 
     def get_context_data(self, **kwargs):
@@ -29,7 +31,6 @@ class ItemList(TemplateView):
 
 class ItemView(TemplateView):
     template_name = 'Items.html'
-    model = Items
 
     def dispatch(self, request, *args, **kwargs):
         print(request)
@@ -37,10 +38,10 @@ class ItemView(TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(ItemView, self).get_context_data(**kwargs)
-        j = Items.objects.get(id=kwargs['item_id'])
+        context = super(ItemList, self).get_context_data(**kwargs)
+        j = Items.objects.get(id = kwargs['item_id'])
         #j = users.objects.filter(id=kwargs['user_id'])
-        context['items'] = j
+        context['itemlist'] = j
         return context
 
 
@@ -61,8 +62,7 @@ class UserView(TemplateView):
         return context
 
 from django.views.generic.edit import FormView
-from django.contrib.auth.forms import UserCreationForm
-from blog.models import RegistrationForm
+
 
 
 class RegisterFormView(FormView):
@@ -76,7 +76,6 @@ class RegisterFormView(FormView):
 
 
 from django.contrib.auth.forms import AuthenticationForm
-
 from django.contrib.auth import login
 
 
@@ -93,9 +92,8 @@ class LoginFormView(FormView):
         login(self.request, self.user)
         return super(LoginFormView, self).form_valid(form)
 
-from django.http import HttpResponseRedirect
-from django.views.generic.base import View
 from django.contrib.auth import logout
+
 
 class LogoutView(View):
     def get(self, request):
@@ -109,16 +107,12 @@ class LogoutView(View):
 
 class OrdersView(TemplateView):
     template_name = 'Orders.html'
-    def get(self, request):
-        user = getattr(request, 'user', None)
-        if hasattr(user, 'is_authenticated') and not user.is_authenticated:
-            context = super(OrdersView, self).get_context_data(**kwargs)
-            j = list(Orders.objects.get(user_id=user.id))
-            context['orders'] = j
-            return HttpResponse(context['orders'])
-        else:
-            context = {}
-            context['orders'] = 'You are not logged on'
-            return HttpResponse(context['orders'])
+    model = Orders
 
+    def get_context_data(self, **kwargs):
+        context = super(OrdersView, self).get_context_data(**kwargs)
+        j = Orders.objects.get(user_id=User.id)
+        #j = users.objects.filter(id=kwargs['user_id'])
+        context['users'] = j
+        return context
 
