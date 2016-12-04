@@ -1,9 +1,18 @@
 {% extends "index.html" %}
-{% block content %}
+
 {%  block head_title %}
-    {{ items.item_name }}
+    {{ item.item_name }}
 {% endblock %}
+{% block content %}
 <body>
-{{ items }}
-</body>
+<div><b>Название: </b>{{item.item_name}}</div>
+<div><b>Автор: </b>{{item.item_author}}</div>
+<div><b>Цена: </b>{{item.item_price}}</div>
+<div><b>Статус: </b>{{item.get_item_status_display}}</div>
+<div><b>Рейтинг: </b>{{item.item_rating}}</div>
+<div><b>Описание: </b>{{item.item_description}}</div>
+<a href="{% url 'create_order' %}" class="btn btn-default">Купить эту книгу!</a>
+
+
 {% endblock %}
+</body>

@@ -26,16 +26,13 @@ class Orders(models.Model):
     order_date = models.DateField(default = '2016-12-12')
     order_adress = models.CharField(max_length=100, default='None')
     user_id = models.ForeignKey(User)
-    item_count = models.ManyToManyField('Items', related_name='p')
+    item_id = models.ForeignKey(Items)
+    #item_count = models.ManyToManyField('Items', related_name='p')
     order_status = models.CharField(max_length=2, choices=[('p', 'Packing'),('d', 'Delivering'),('f', 'Delivered'), ('c', 'Cancelled')])
     order_comment = models.TextField(max_length=512, blank=True)
 
-    @property
-    def count(self):
-        return self.item_count.count()
-
     def __str__(self):
-        return 'ID: {o.id} \nOrder Date: {o.order_date} \n Items: {o.item_count}'.format(o=self)
+        return 'ID: {o.id} \nOrder Date: {o.order_date} \n Item: {o.item_id}'.format(o=self)
 
 
 class Comments(models.Model):

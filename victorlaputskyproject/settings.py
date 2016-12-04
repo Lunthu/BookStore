@@ -80,8 +80,8 @@ DATABASES = {
         'NAME': 'ProjectBase',
         'HOST': 'localhost',
         'PORT': 5432,
-        'USER': 'User1',
-        'PASSWORD': 'olp84dc_s7d'
+        'USER': 'Lunthu',
+        'PASSWORD': '123'
     }
 }
 

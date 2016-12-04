@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django import forms
-from blog.models import Items
+from blog.models import Items, Orders
 from django.contrib.auth.models import User
+
 
 class RegistrationForm(UserCreationForm):
 
@@ -27,5 +28,14 @@ class BookForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     pass
 
+
 class OrderForm(forms.ModelForm):
-    pass
+    class Meta:
+        model = Orders
+        fields = ('order_date', 'order_adress', 'order_comment', 'item_id')
+
+    def save(self, commit=True):
+        order = super(OrderForm, self).save(commit=False)
+        if commit:
+            order.save()
+        return order

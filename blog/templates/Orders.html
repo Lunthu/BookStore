@@ -4,11 +4,20 @@
     Ваши заказы
 {% endblock %}
 
-{% block content %}
+
 <body>
+{% block content %}
 {% if user.is_authenticated %}
 <br>
-{{ orders }}
+<th border="1">
+    <th> Номер заказа </th> <th> Дата даставки</th> <th> Адрес доставки</th> <th>Статус</th>
+{% for order in orders %}
+	<tr>
+    <td>{{order.id }}</td> <td>{{ order.order_date }} </td> <td>{{ order.order_adress }} </td> <td>{{order.get_order_status_display}}</td></div>
+	</tr>
+{% endfor %}
+    </table>
 {% endif %}
-</body>
+
 {% endblock %}
+</body>

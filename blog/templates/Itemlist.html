@@ -4,9 +4,13 @@
    Доступные книги
 {% endblock %}
 {% block content %}
-<body>
+
+<table border="1">
+<th> Название книги </th> <th> Цена </th> <th> Статус </th> <th> Описание </th> <th> Рейтинг </th>
 {% for item in itemlist %}
-    <div><a href="{% url 'item' item_id=item.id %}">{{ item.item_name }}</a>{{ item.item_price }} {{ item.item_status }}</div>
+	<tr>
+    <td><a class="maintext" href="{% url 'item' item_id=item.id %}"><b>{{ item.item_name }}</b></a></td> <td>{{ item.item_price }} </td> <td>{{ item.get_item_status_display }} </td><td>{{item.item_description}}</td> <td>{{item.item_rating}}</td></div>
+	</tr>
 {% endfor %}
-</body>
+    </table>
 {% endblock %}

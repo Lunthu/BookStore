@@ -1,10 +1,13 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView, FormView
+from django.shortcuts import render, redirect
+from django.views.generic import TemplateView, FormView, CreateView
 from django.views.generic.base import View
 from blog.models import Orders, Items
-from blog.forms import RegistrationForm, BookForm, CommentForm
+from blog.forms import RegistrationForm, BookForm, OrderForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+
 
 class MainPage(TemplateView):
     template_name = 'First.html'
@@ -37,10 +40,10 @@ class ItemView(TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(ItemList, self).get_context_data(**kwargs)
+        context = super(ItemView, self).get_context_data(**kwargs)
         j = Items.objects.get(id = kwargs['item_id'])
         #j = users.objects.filter(id=kwargs['user_id'])
-        context['itemlist'] = j
+        context['item'] = j
         return context
 
 
@@ -63,7 +66,6 @@ class UserView(TemplateView):
 from django.views.generic.edit import FormView
 
 
-
 class RegisterFormView(FormView):
     form_class = RegistrationForm
     success_url = "/login/"
@@ -72,6 +74,7 @@ class RegisterFormView(FormView):
     def form_valid(self, form):
        form.save()
        return super(RegisterFormView, self).form_valid(form)
+
 
 
 from django.contrib.auth.forms import AuthenticationForm
@@ -91,6 +94,7 @@ class LoginFormView(FormView):
         login(self.request, self.user)
         return super(LoginFormView, self).form_valid(form)
 
+
 from django.contrib.auth import logout
 
 
@@ -104,17 +108,50 @@ class LogoutView(View):
 
 
 
-class OrdersView(TemplateView):
+#class OrdersView(TemplateView):
+#    template_name = 'Orders.html'
+#    model = Orders
+#
+#    def get(self, request):
+#        def get_context_data(self, **kwargs):
+#            context = super(OrdersView, self).get_context_data(**kwargs)
+#            try:
+#                j = Orders.objects.get(user_id=request.user.id)
+#                #j = users.objects.filter(id=kwargs['user_id'])
+#                context['orders'] = j
+#            except ObjectDoesNotExist:
+#                context['orders'] = 'У вас нет заказов'
+#            return context
+
+
+class OrderView(TemplateView):
     template_name = 'Orders.html'
     model = Orders
 
     def get_context_data(self, **kwargs):
-        context = super(OrdersView, self).get_context_data(**kwargs)
-        try:
-            j = Orders.objects.get(user_id=1)
-            #j = users.objects.filter(id=kwargs['user_id'])
-            context['orders'] = j
-        except Vehicle.vehicledevice.device.DoesNotExist:
-            context['orders'] = 'У вас нет заказов'
-        return context
+        context = super(OrderView, self).get_context_data(**kwargs)
+        j = Orders.objects.all()
+        #j = users.objects.filter(id=kwargs['user_id'])
+        context['orders'] = j
+        return context	
 
+
+class OrderCreate(CreateView):
+    form_class = OrderForm
+    success_url = '/orders/'
+    template_name = 'order_create.html'
+
+    def form_valid(self, form):
+        Orders.objects.create(user_id=self.request.user, order_status = 'p', **form.cleaned_data)
+        return redirect('/orders/')
+
+#@login_required
+#def ordercreate(request):
+#    form = OrderForm
+#    if request.method == "POST":
+#        if form.is_valid():
+#            Orders.objects.create(user_id=request.user.id, order_status = 'p', **form.cleaned_data)
+#            return HttpResponseRedirect('/orders/')
+#    else:
+#        pass
+#    return render(request, 'order_create.html', {'form': form})

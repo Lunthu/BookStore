@@ -8,10 +8,14 @@
     <meta name="author" content="">
 <title>{% block head_title %}{% endblock %}BookStore - Your  knoledge engine #1</title>
 <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}" type="text/css">
+
     <style>
  A {
     text-decoration: none; /* Убирает подчеркивание для ссылок */
      color: white;
+   }
+ A.maintext {
+    color: black; /* Темно-красный цвет текста */
    }
    A:hover {
     text-decoration: underline; /* Добавляем подчеркивание при наведении курсора на ссылку */
@@ -27,7 +31,7 @@
     {% if user.is_anonymous %}
 
         <div class="nav_button"> <a href = {% url 'register' %}> Register</a></div>
-		<div class="nav_button"> <a href = {% url 'login' %}> Login </a></div>
+		<div class="nav_button"> <a href = {% url 'login' %}> Login</a></div>
     {% endif %}
     {% if user.is_authenticated %}
         <div class="nav_button" link=""> <a href = {% url 'orders' %}>My Orders</a></div>
