@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, FormView, CreateView
+from django.views.generic import TemplateView, FormView, CreateView, DetailView
 from django.views.generic.base import View
 from blog.models import Orders, Items
 from blog.forms import RegistrationForm, BookForm, OrderForm
@@ -124,13 +124,13 @@ class LogoutView(View):
 #            return context
 
 
-class OrderView(TemplateView):
+class OrderListView(TemplateView):
     template_name = 'Orders.html'
     model = Orders
 
     def get_context_data(self, **kwargs):
-        context = super(OrderView, self).get_context_data(**kwargs)
-        j = Orders.objects.all()
+        context = super(OrderListView, self).get_context_data(**kwargs)
+        j = Orders.objects.filter(user_id=self.request.user)
         #j = users.objects.filter(id=kwargs['user_id'])
         context['orders'] = j
         return context	
@@ -144,6 +144,11 @@ class OrderCreate(CreateView):
     def form_valid(self, form):
         Orders.objects.create(user_id=self.request.user, order_status = 'p', **form.cleaned_data)
         return redirect('/orders/')
+
+
+class OrderDetailsView(DetailView):
+    model = Orders
+    template_name = 'order_details.html'
 
 #@login_required
 #def ordercreate(request):

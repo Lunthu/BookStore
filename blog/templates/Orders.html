@@ -9,11 +9,12 @@
 {% block content %}
 {% if user.is_authenticated %}
 <br>
-<th border="1">
-    <th> Номер заказа </th> <th> Дата даставки</th> <th> Адрес доставки</th> <th>Статус</th>
+<table border="0">
+    <th> Номер заказа </th> <th> Содержимое</th> <th> Дата даставки</th> <th> Адрес доставки</th> <th>Статус</th>
 {% for order in orders %}
-	<tr>
-    <td>{{order.id }}</td> <td>{{ order.order_date }} </td> <td>{{ order.order_adress }} </td> <td>{{order.get_order_status_display}}</td></div>
+
+    <tr>
+    <td><a href="{% url 'order_details' pk=order.id  %}" class = maintext>{{ order.id }}</a></td> <td>{{ order.item_id.item_name }} </td> <td>{{ order.order_date }} </td> <td>{{ order.order_adress }} </td> <td>{{order.get_order_status_display}}</td></div>
 	</tr>
 {% endfor %}
     </table>

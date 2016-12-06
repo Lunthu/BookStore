@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+{% block content %}
+<br>
+<br>
+<style>
+#centerLayer {
+    margin-left: 30%; /* Отступ слева */
+    width: 40%; /* Ширина слоя */
+    background: #ecf8ff; /* Цвет фона */
+    padding: 10px; /* Поля вокруг текста */
+}
+</style>
+<div id="centerLayer">
+    <div><b>Номер заказа:</b> {{ object.id }}</div>
+    <div><b>Дата заказа:</b> {{ object.order_date }}</div>
+    <div><b>Адрес получателя:</b> {{ object.order_adress }}</div>
+    <div><b>Стату заказа:</b> {{ object.get_order_status_display }}</div>
+    <div><b>Заказанная книга:</b> <a href = "{% url 'item' item_id=object.item_id.id %}" class = maintext>{{ object.item_id.item_name }}</div>
+</div>
+{% endblock %}

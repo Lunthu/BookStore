@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% block head_title %}
+    Заказ книги
+{% endblock %}
+{% block content %}
+  <body>
+    <form action="" method="post">
+      {% csrf_token %}
+      <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
+      {{ form.as_p }}
+      <button type="submit" value = "save">Заказать</button>
+    </form>
+  </body>
+</html>
+{% endblock %}

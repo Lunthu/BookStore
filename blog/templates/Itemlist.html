@@ -5,12 +5,11 @@
 {% endblock %}
 {% block content %}
 
-<table border="1">
-<th> Название книги </th> <th> Цена </th> <th> Статус </th> <th> Описание </th> <th> Рейтинг </th>
+
 {% for item in itemlist %}
-	<tr>
-    <td><a class="maintext" href="{% url 'item' item_id=item.id %}"><b>{{ item.item_name }}</b></a></td> <td>{{ item.item_price }} </td> <td>{{ item.get_item_status_display }} </td><td>{{item.item_description}}</td> <td>{{item.item_rating}}</td></div>
-	</tr>
+    <br>
+    <a href="{% url 'item' item_id=item.id %}" class="c"><table border="0"><tr><td><b>{{ item.item_name }}</b></td> <td>{{ item.item_price }} руб. </td> <td>{{ item.get_item_status_display }} </td><td>{{item.item_description}}</td> <td>{{item.item_rating}}</td></div></tr></table></a>
+    <br>
 {% endfor %}
-    </table>
+
 {% endblock %}
