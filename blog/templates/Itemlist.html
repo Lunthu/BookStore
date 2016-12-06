@@ -8,7 +8,8 @@
 
 {% for item in itemlist %}
     <br>
-    <a href="{% url 'item' item_id=item.id %}" class="c"><table border="0"><tr><td><b>{{ item.item_name }}</b></td> <td>{{ item.item_price }} руб. </td> <td>{{ item.get_item_status_display }} </td><td>{{item.item_description}}</td> <td>{{item.item_rating}}</td></div></tr></table></a>
+    <a href="{% url 'item' item_id=item.id %}" class="c"><table border="0"><tr><td><img src="/media/{{ item.item_image }}" /></td><td><b>{{ item.item_name }}</b><br>
+        <b>Цена:</b>{{ item.item_price }} руб. <br> <b>Статус</b>{{ item.get_item_status_display }} <br> <b>Рейтинг:</b>{{item.item_rating}}</td></tr></table></a>
     <br>
 {% endfor %}
 
