@@ -31,8 +31,9 @@
   }
    .c:hover {
     box-shadow: 0 0 5px rgba(0,0,0,0.3); /* Тень */
-    background: linear-gradient(to bottom, #fcfff4, #e9e9ce); /* Градиент */
-    color: #a00;
+    text-decoration: none;
+    background: linear-gradient(to bottom, #f4fcff, #d0e3e9); /* Градиент */
+    color: #0b0c0f;
    }
 
   </style>
@@ -40,16 +41,19 @@
 
 <body>
 <div id="top_bar_black"> <div id="logo_container"> <div id="logo_image"> </div>  <div id="nav_block">
-        <div class="nav_button" ><a href = {% url 'main' %}>Home </a></div>
-	    <div class="nav_button"> <a href = {% url 'items' %}> Books </a></div>
+        <div class="nav_button" ><a href = {% url 'main' %}> <b>Главная </b></a></div>
+	    <div class="nav_button"> <a href = {% url 'items' %}> <b>Книги </b></a></div>
     {% if user.is_anonymous %}
 
-        <div class="nav_button"> <a href = {% url 'register' %}> Register</a></div>
-		<div class="nav_button"> <a href = {% url 'login' %}> Login</a></div>
+        <div class="nav_button"> <a href = {% url 'register' %}> <b>Регистрация</b></a></div>
+		<div class="nav_button"> <a href = {% url 'login' %}> <b>Войти</b></a></div>
     {% endif %}
     {% if user.is_authenticated %}
-        <div class="nav_button" link=""> <a href = {% url 'orders' %}>My Orders</a></div>
-        <div class="nav_button"> <a href = {% url 'logout' %}> Log Out </a></div>
+        <div class="nav_button" link=""> <a href = {% url 'orders' %}><b>Мои заказы</b></a></div>
+        <div class="nav_button"> <a href = {% url 'logout' %}> <b>Выйти </b></a></div>
+    {% endif %}
+    {% if user.is_admin %}
+        <div class="nav_button"> <a href = {% url 'admin' %}> <b>Админка </b></a></div>
     {% endif %}
 	  </div>
 </div> </div>
@@ -64,13 +68,13 @@
         
 <div id="bottom_bar_black"> <div id="main_container">
 	<div id="header_lower">  <div id="header_content_lowerline">Наши контакты
-	    <div id="header_content_lowerboxcontent">ул. Пушкина, д. 13<br />
-	     г. Минск<br />
-        111-22-33<BR />
-        80(29)111-22-33<BR />
-        info@domainhappy.by<br />
-        www.domainhappy.by<br />
-        01982 698 621<BR /> 
+	    <div id="header_content_lowerboxcontent">ул. Пушкина, д. 13<br/>
+	     г. Минск<br/>
+        111-22-33<br/>
+        80(29)111-22-33<br/>
+        info@domainhappy.by<br/>
+        www.domainhappy.by<br/>
+        01982 698 621<br/>
         </div>
 	</div> 
           </div>
