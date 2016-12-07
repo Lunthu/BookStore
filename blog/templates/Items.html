@@ -5,29 +5,19 @@
 {% endblock %}
 {% block content %}
 {% load staticfiles %}
-<style>
-#centerLayer {
-    margin-left: 15%; /* Отступ слева */
-    width: 60%; /* Ширина слоя */
-    background: #d2e4ff; /* Цвет фона */
-    padding: 10px; /* Поля вокруг текста */
-}
-.center {
-    text-align: center;
-  }
-</style>
+
 <body>
 <br>
 <br>
 <br>
 <div id="centerLayer">
-
-<img src=" {{ item.item_image.url}}" />
+<table border="0"><td>
+<img src=" {{ item.item_image.url}}" /></td><td>
 <div><b>Название: </b>{{item.item_name}}</div>
 <div><b>Автор: </b>{{item.author_id}}</div>
 <div><b>Цена: </b>{{item.item_price}} руб.</div>
 <div><b>Статус: </b>{{item.get_item_status_display}}</div>
-<div><b>Рейтинг: </b>{{item.item_rating}}</div>
+<div><b>Рейтинг: </b>{{item.item_rating}}</div></td></table>
 <br>
 <div><b>Описание: </b>{{item.item_description}}</div>
 <br>

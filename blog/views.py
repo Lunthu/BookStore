@@ -21,14 +21,24 @@ class UserList(FormView):
         context['userlist'] = j
         return context
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
 class ItemList(TemplateView):
     template_name = 'Itemlist.html'
 
     def get_context_data(self, **kwargs):
         context = super(ItemList, self).get_context_data(**kwargs)
         j = Items.objects.all()
-        #j = users.objects.filter(id=kwargs['user_id'])
-        context['itemlist'] = j
+        paginator = Paginator(j, 3)
+        page = self.request.GET.get('page')
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
+        context['itemlist'] = items
         return context
 
 class ItemView(TemplateView):

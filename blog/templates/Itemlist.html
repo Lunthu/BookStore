@@ -8,9 +8,27 @@
 
 {% for item in itemlist %}
     <br>
-    <a href="{% url 'item' item_id=item.id %}" class="c"><table border="0"><tr><td><img src="/media/{{ item.item_image }}" /></td><td><b>{{ item.item_name }}</b><br>
-        <b>Цена:</b>{{ item.item_price }} руб. <br> <b>Статус</b>{{ item.get_item_status_display }} <br> <b>Рейтинг:</b>{{item.item_rating}}</td></tr></table></a>
+    <a href="{% url 'item' item_id=item.id %}" class="c"><table border="0"><tr><td><img src="/media/{{ item.item_image }}" width="100"/></td><td><b>{{ item.item_name }}</b><br>
+        <b>Цена:</b>{{ item.item_price }} руб. <br> <b>Статус: </b>{{ item.get_item_status_display }} <br> <b>Рейтинг:</b>{{item.item_rating}}</td> <td> {{item.item_description}}</td></tr></table></a>
     <br>
 {% endfor %}
+<br>
+<div id="pagLayer"  class="center">
+     <div class="pagination">
+    <span class="step-links">
+        {% if itemlist.has_previous %}
+            <a href="?page={{ itemlist.previous_page_number }}" class="maintext"><b>Предыдущая страница</b></a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ itemlist.number }} из {{ itemlist.paginator.num_pages }}.
+        </span>
+
+        {% if itemlist.has_next %}
+            <a href="?page={{ itemlist.next_page_number }}" class="maintext"><b>Следующая страница</b></a>
+        {% endif %}
+    </span>
+</div>
+</div>
 
 {% endblock %}

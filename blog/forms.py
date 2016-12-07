@@ -32,7 +32,7 @@ class CommentForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Orders
-        fields = ('order_date', 'order_adress', 'order_comment', 'item_id')
+        fields = ('order_adress', 'order_comment', 'item_id')
 
     def save(self, commit=True):
         order = super(OrderForm, self).save(commit=False)

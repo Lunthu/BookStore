@@ -4,7 +4,7 @@ body {
 	margin:0px;
 	padding:0px;
 	background-attachment: scroll;
-	background-image: url(../images/background.jpg);
+	background-image: url(../images/background-1.png);
 	background-repeat: repeat-x;
 	background-position: left top;
 }
@@ -13,9 +13,9 @@ body {
 	margin-left:auto;
 	margin-right:auto;
 	width:900px;
-	height: 750px;
+	height: 1000px;
 	background-attachment: scroll;
-	background-image: url(../images/Untitled-4.png);
+	background-image: url(../images/Untitled-4.jpg);
 	background-repeat: no-repeat;
 	background-position: right center;
 }
@@ -147,4 +147,21 @@ body {
 	text-align:right;
 	text-decoration:none;
 	margin-bottom:10px;
+}
+
+#centerLayer {
+    margin-left: 15%; /* Отступ слева */
+    width: 60%; /* Ширина слоя */
+    background: #d2e4ff; /* Цвет фона */
+    padding: 10px; /* Поля вокруг текста */
+}
+.center {
+    text-align: center;
+  }
+#pagLayer {
+    margin-left: 15%; /* Отступ слева */
+    width: 60%; /* Ширина слоя */
+	border: 1px solid #333;
+	background-color: snow;
+    padding: 10px; /* Поля вокруг текста */
 }

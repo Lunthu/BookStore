@@ -9,12 +9,12 @@ class Items(models.Model):
     item_price = models.IntegerField(default='100')
     item_description = models.TextField(blank=True, max_length=512)
     release_date = models.DateField(default='2016-12-12')
-    item_status = models.CharField(max_length=2, choices=[('a', 'Avialable'),('na', 'Not Avialable')])
+    item_status = models.CharField(max_length=2, choices=[('a', 'Доступно'),('na', 'Не доступно')])
     item_genre = models.ManyToManyField('Tags', related_name='p')
     item_rating = models.DecimalField(max_digits=2,decimal_places=1, default=0.0, editable=False)
 
     def __str__(self):
-        return 'Книга: {o.item_name} \nЦена: {o.item_price} руб.\nДата выхода: {o.release_date} \n'.format(o=self)
+        return 'Книга: {o.item_name}; \nЦена: {o.item_price} руб.'.format(o=self)
 
 
 class Authors(models.Model):
@@ -32,13 +32,13 @@ class Publishers(models.Model):
 
 
 class Orders(models.Model):
-    order_date = models.DateField(default = '1994-12-13')
-    order_adress = models.CharField(max_length=100, default='None')
+    order_date = models.DateField(auto_now=True)
+    order_adress = models.CharField(max_length=100, default='None', verbose_name=u'Желаемый адрес доставки')
     user_id = models.ForeignKey(User)
-    item_id = models.ForeignKey(Items)
+    item_id = models.ForeignKey(Items, verbose_name=u'Желаемая книга')
     # item_count = models.ManyToManyField('Items', related_name='p')
-    order_status = models.CharField(max_length=2, choices=[('p', 'Packing'),('d', 'Delivering'),('f', 'Delivered'), ('c', 'Cancelled')])
-    order_comment = models.TextField(max_length=512, blank=True)
+    order_status = models.CharField(max_length=2, choices=[('p', 'Комплектуется'),('d', 'Отправляется'),('f', 'Отправлено'), ('c', 'Отменено')], verbose_name=u'Статус заказа')
+    order_comment = models.TextField(max_length=512, blank=True, verbose_name=u'Ваш комментарий (пожелания, номер телефона для связи, т.д.)')
 
     def __str__(self):
         return 'ID: {o.id} \nДата заказа: {o.order_date} \n Книга: {o.item_id}'.format(o=self)

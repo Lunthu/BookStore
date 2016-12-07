@@ -4,11 +4,16 @@
 {% endblock %}
 {% block content %}
   <body>
+    <br>
+    <br>
     <form action="" method="post">
+        <div id="centerLayer" class = "center">
       {% csrf_token %}
       <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
       {{ form.as_p }}
+
       <button type="submit" value = "save">Заказать</button>
+            </div>
     </form>
   </body>
 </html>
