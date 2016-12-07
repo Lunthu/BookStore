@@ -5,24 +5,26 @@
 {% endblock %}
 
 
-<body>
 {% block content %}
 {% if user.is_authenticated %}
 <br>
+<div class="well">
 <p class="center"> <b>Ваши заказы </b></p>
-{% for order in orders %}
-    <table border="1" bgcolor="#fdf5e6">
+<table border="0" bgcolor="#fdf5e6">
     <tr>
-    <td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Номер заказа: </b><br> {{ order.id }}</a></td> <td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Заказанная книга</b><br>{{ order.item_id.item_name }} </a></td><td><b>Дата заказа: </b><br>{{ order.order_date }} </td> <td><b>Адрес доставки: </b><br>{{ order.order_adress }} </td> <td><b>Статус:</b><br>{{order.get_order_status_display}}</td></div>
-	</tr>
-    </table>
+{% for order in orders %}
+
+    <td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Номер <br> заказа: </b><br> {{ order.id }}</a></td> <td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Заказанная <br> книга</b><br>{{ order.item_id.item_name }} &nbsp</a></td><td><b>Дата заказа: </b><br>{{ order.order_date }} </td> <td><b>Адрес доставки: </b><br>{{ order.order_adress }} &nbsp&nbsp</td> <td><b>Статус:</b><br>{{order.get_order_status_display}}</td>
+
 {% empty %}
+    </tr>
+
     <div id="centerLayer">
     <div class="center">У вас нет заказов! Попробуйте поискать что-нибудь в нашем <b><a href="{% url 'items' %}" class="maintext">каталоге</a></b>, может найдете что-нибудь по душе! </div>
     </div>
 {% endfor %}
-
+</table>
+</div>
 {% endif %}
 
 {% endblock %}
-</body>

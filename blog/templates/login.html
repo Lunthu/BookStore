@@ -3,13 +3,19 @@
     Авторизация
 {% endblock %}
 {% block content %}
-  <body>
-    <form action="" method="post">
-      {% csrf_token %}
-      <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
-      {{ form.as_p }}
-      <button type="submit">Войти</button>
-    </form>
-  </body>
-</html>
+<br>
+<br>
+
+<div class="center">
+
+      <form class="form-signin" role="form" action="", method="post">
+        <h2 class="form-signin-heading">Пожалуйста, войдите</h2>
+         {% csrf_token %}
+        <input id="username" class="form-control" name="username" placeholder="Ваш логин" required autofocus>
+        <input id="password" type="password" name="password" class="form-control" placeholder="Ваш пароль" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти!</button>
+      </form>
+
+    </div>
+
 {% endblock %}

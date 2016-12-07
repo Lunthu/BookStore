@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
 body {
+	font-family: Georgia, "Times New Roman", Times, serif;
+    color: #555;
 	margin:0px;
 	padding:0px;
 	background-attachment: scroll;
@@ -15,7 +17,6 @@ body {
 	width:900px;
 	height: 1000px;
 	background-attachment: scroll;
-	background-image: url(../images/Untitled-4.jpg);
 	background-repeat: no-repeat;
 	background-position: right center;
 }
