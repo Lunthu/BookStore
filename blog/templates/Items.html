@@ -24,7 +24,7 @@
 <br>
 <div><b>Описание: </b>{{item.item_description}}</div>
 <br>
-<div class = "center"><a href="{% url 'create_order' %}"><button type="button" class="btn btn-primary">Купить эту книгу!</button></a></div>
+<div class = "center"><a href="{% url 'create_order' item_id=item.id %}"><button type="button" class="btn btn-primary">Купить эту книгу!</button></a></div>
 </div>
 
 

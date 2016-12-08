@@ -6,11 +6,21 @@
   <body>
     <br>
     <br>
+
     <form action="" method="post">
         <div id="centerLayer" class = "center">
       {% csrf_token %}
       <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
-      {{ form.as_p }}
+
+        <div class="form-group">
+        <label for="order_adress">Ваш адрес:</label>
+        <input type="text" name="order_adress" class="form-control" id="order_adress" placeholder="Необходим ваш полный адрес: улица, дом, квартира.">
+        </div>
+        {{form.errors}}
+        <div class="form-group">
+        <label for="order_comment">Ваш комментарий:</label>
+        <textarea class="form-control" rows="5" id="order_comment" name="order_comment" placeholder="Ваши пожелания, номер телефона для связи, желаемое время доставки и т.д. Мы свяжемся с Вами, как только определится точное время доставки товара"></textarea>
+        </div>
       <button type="submit" class="btn btn-primary" value = "save">Заказать</button>
             </div>
     </form>

@@ -152,7 +152,7 @@ class OrderCreate(CreateView):
     template_name = 'order_create.html'
 
     def form_valid(self, form):
-        Orders.objects.create(user_id=self.request.user, order_status = 'p', **form.cleaned_data)
+        Orders.objects.create(user_id=self.request.user, order_status = 'p', item_id = Items.objects.get(id=1), **form.cleaned_data)
         return redirect('/orders/')
 
 

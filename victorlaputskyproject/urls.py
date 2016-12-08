@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^$', MainPage.as_view(), name='main'),
     url(r'^orders/$', OrderListView.as_view(), name='orders'),
-    url(r'^orders/create/$', views.OrderCreate.as_view(), name='create_order'),
+    url(r'^orders/create/item=(?P<item_id>[0-9]+)/$', views.OrderCreate.as_view(), name='create_order'),
     url(r'^orders/(?P<pk>[0-9]+)/$', OrderDetailsView.as_view(), name='order_details'),
     url(r'^userlist/$', UserList.as_view(), name='users'),
     url(r'^itemlist/$', ItemList.as_view(), name='items'),
