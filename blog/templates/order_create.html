@@ -7,7 +7,9 @@
     <br>
 <div class="row">
   <div class="col-md-1"></div>
-  <div class="col-md-12"><div id="centerLayer"><img src="{{ item.item_image.url }}" width="100"/></div></div></div>
+  <div class="col-md-12"><div id="centerLayer"><table border="0"><tr><td><img src="{{ item.item_image.url }}" width="100"/></td><td>&nbsp&nbsp</td>
+      <td><div><b>Название: </b>{{item.item_name}}</div><div><b>&nbsp&nbsp  Автор: </b>{{item.author_id}}</div>
+          <div><b>&nbsp&nbsp  Цена: </b>{{item.item_price}} руб.</div></td></tr></table></div></div></div>
 
 
 
