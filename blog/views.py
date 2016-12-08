@@ -4,7 +4,7 @@ from django.views.generic.base import View
 from blog.models import Orders, Items
 from blog.forms import RegistrationForm, BookForm, OrderForm
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
@@ -147,14 +147,25 @@ class OrderListView(TemplateView):
 
 
 class OrderCreate(CreateView):
+
+    # def dispatch(self, request, *args, **kwargs):
+    #     print(request)
+    #     print(kwargs)
+    #     return super().dispatch(request, *args, **kwargs)
+
     form_class = OrderForm
     success_url = '/orders/'
     template_name = 'order_create.html'
 
-    def form_valid(self, form):
-        Orders.objects.create(user_id=self.request.user, order_status = 'p', item_id = Items.objects.get(id=1), **form.cleaned_data)
-        return redirect('/orders/')
+    def get_context_data(self, **kwargs):
 
+        context = super().get_context_data(**kwargs)
+        context['item'] = Items.objects.get(id=self.kwargs['item_id'])
+        return context
+
+    def form_valid(self, form):
+        Orders.objects.create(user_id=self.request.user, order_status='p', item_id=Items.objects.get(id=self.kwargs['item_id']), **form.cleaned_data)
+        return redirect('/orders/')
 
 class OrderDetailsView(DetailView):
     model = Orders
