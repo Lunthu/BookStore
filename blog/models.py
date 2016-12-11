@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Items(models.Model):
     item_name = models.CharField(max_length=512, unique=True)
     item_image = models.ImageField(upload_to='images/', blank=True, null=True)
@@ -45,13 +46,14 @@ class Orders(models.Model):
 
 
 class Comments(models.Model):
-    user_id = models.ForeignKey(User, blank=True)
-    item_id = models.ForeignKey('Items', blank=True)
+    user_id = models.ForeignKey(User)
+    item_id = models.ForeignKey('Items')
     comment_date = models.DateTimeField(auto_now=True)
     comment_text = models.TextField(max_length=512)
 
     def __str__(self):
         return 'User: {o.user_id}, Item: {o.item_id}, Date: {o.comment_date}, Text: {o.comment_text}'.format(o=self)
+
 
 class Tags(models.Model):
     tag_name = models.CharField(max_length=200)
@@ -59,15 +61,3 @@ class Tags(models.Model):
     def __str__(self):
         return self.tag_name
 
-
-class RecommendationMatrix:
-    pass
-
-class News(models.Model):
-    news_text = models.TextField(max_length=512)
-    news_date = models.DateTimeField(auto_now=True)
-
-
-
-
-# Create your models here.

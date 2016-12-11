@@ -18,17 +18,17 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
 import blog.views as views
-from blog.views import OrderListView, OrderDetailsView, MainPage, ItemList
+from blog.views import OrderListView, OrderDetailsView, OrderCreate, MainPage, ItemList, RegisterFormView, LoginFormView, LogoutView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^$', MainPage.as_view(), name='main'),
     url(r'^orders/$', OrderListView.as_view(), name='orders'),
-    url(r'^orders/create/item=(?P<item_id>[0-9]+)/$', views.OrderCreate.as_view(), name='create_order'),
+    url(r'^orders/create/item=(?P<item_id>[0-9]+)/$', OrderCreate.as_view(), name='create_order'),
     url(r'^orders/(?P<pk>[0-9]+)/$', OrderDetailsView.as_view(), name='order_details'),
     url(r'^itemlist/$', ItemList.as_view(), name='items'),
     url(r'^item/(?P<item_id>[0-9]+)/$', views.item_view, name='item'),
-    url(r'^register/$', views.RegisterFormView.as_view(), name='register'),
-    url(r'^login/$', views.LoginFormView.as_view(), name='login'),
-    url(r'^logout/$', views.LogoutView.as_view(), name='logout'),
+    url(r'^register/$', RegisterFormView.as_view(), name='register'),
+    url(r'^login/$', LoginFormView.as_view(), name='login'),
+    url(r'^logout/$', LogoutView.as_view(), name='logout'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

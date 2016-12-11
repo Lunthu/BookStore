@@ -19,12 +19,6 @@ class RegistrationForm(UserCreationForm):
         return user
 
 
-class BookForm(forms.ModelForm):
-    class Meta:
-        model = Items
-        fields = ('item_name', 'item_price', 'item_status', 'item_description', 'author_id', 'item_genre', 'item_image')
-
-
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comments
