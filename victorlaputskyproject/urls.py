@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
 import blog.views as views
-from blog.views import OrderListView, OrderDetailsView, UserView, MainPage, UserList, ItemView, ItemList
+from blog.views import OrderListView, OrderDetailsView, MainPage, ItemList
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
@@ -26,11 +26,9 @@ urlpatterns = [
     url(r'^orders/$', OrderListView.as_view(), name='orders'),
     url(r'^orders/create/item=(?P<item_id>[0-9]+)/$', views.OrderCreate.as_view(), name='create_order'),
     url(r'^orders/(?P<pk>[0-9]+)/$', OrderDetailsView.as_view(), name='order_details'),
-    url(r'^userlist/$', UserList.as_view(), name='users'),
     url(r'^itemlist/$', ItemList.as_view(), name='items'),
-    url(r'^item/(?P<item_id>[0-9]+)/$', ItemView.as_view(), name='item'),
+    url(r'^item/(?P<item_id>[0-9]+)/$', views.item_view, name='item'),
     url(r'^register/$', views.RegisterFormView.as_view(), name='register'),
     url(r'^login/$', views.LoginFormView.as_view(), name='login'),
     url(r'^logout/$', views.LogoutView.as_view(), name='logout'),
-    url(r'^user/(?P<user_id>[0-9]+)/$', UserView.as_view(), name = 'user')
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

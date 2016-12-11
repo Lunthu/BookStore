@@ -14,7 +14,7 @@ class Items(models.Model):
     item_rating = models.DecimalField(max_digits=2,decimal_places=1, default=0.0, editable=False)
 
     def __str__(self):
-        return 'Книга: {o.item_name}; \nЦена: {o.item_price} руб.'.format(o=self)
+        return self.item_name
 
 
 class Authors(models.Model):
@@ -45,8 +45,8 @@ class Orders(models.Model):
 
 
 class Comments(models.Model):
-    user_id = models.ForeignKey(User)
-    item_id = models.ForeignKey('Items')
+    user_id = models.ForeignKey(User, blank=True)
+    item_id = models.ForeignKey('Items', blank=True)
     comment_date = models.DateTimeField(auto_now=True)
     comment_text = models.TextField(max_length=512)
 
@@ -62,6 +62,12 @@ class Tags(models.Model):
 
 class RecommendationMatrix:
     pass
+
+class News(models.Model):
+    news_text = models.TextField(max_length=512)
+    news_date = models.DateTimeField(auto_now=True)
+
+
 
 
 # Create your models here.

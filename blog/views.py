@@ -1,27 +1,28 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, FormView, CreateView, DetailView
+from django.views.generic import TemplateView, FormView, CreateView, DetailView, UpdateView
 from django.views.generic.base import View
-from blog.models import Orders, Items
-from blog.forms import RegistrationForm, BookForm, OrderForm
+from blog.models import Orders, Items, Comments
+from blog.forms import RegistrationForm, CommentForm, OrderForm
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout, login
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib.auth.forms import AuthenticationForm
+import random
 
 
 class MainPage(TemplateView):
     template_name = 'First.html'
 
-class UserList(FormView):
-    template_name = 'Userlist.html'
-
     def get_context_data(self, **kwargs):
-        context = super(UserList, self).get_context_data(**kwargs)
-        j = User.objects.all()
-        context['userlist'] = j
+        context = super(MainPage, self).get_context_data(**kwargs)
+        item_list = Items.objects.get(id=random.randint(1,len(list(Items.objects.all()))))
+        context['randombook'] = item_list
         return context
 
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 class ItemList(TemplateView):
     template_name = 'Itemlist.html'
@@ -41,20 +42,24 @@ class ItemList(TemplateView):
         context['itemlist'] = items
         return context
 
-class ItemView(TemplateView):
-    template_name = 'Items.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        print(request)
-        print(kwargs)
-        return super().dispatch(request, *args, **kwargs)
+def item_view(request, **kwargs):
+    form = CommentForm(request.POST or None)
 
-    def get_context_data(self, **kwargs):
-        context = super(ItemView, self).get_context_data(**kwargs)
-        j = Items.objects.get(id = kwargs['item_id'])
-        #j = users.objects.filter(id=kwargs['user_id'])
-        context['item'] = j
-        return context
+    if request.method == 'POST' and form.is_valid():
+        Comments.objects.create(user_id=request.user, item_id=Items.objects.get(id=kwargs['item_id']), **form.cleaned_data)
+
+    object = Items.objects.get(id=kwargs['item_id'])
+    comment_list = Comments.objects.filter(item_id=kwargs['item_id']).order_by('-comment_date')
+    paginator = Paginator(comment_list, 5)
+    page = request.GET.get('page')
+    try:
+        comments = paginator.page(page)
+    except PageNotAnInteger:
+        comments = paginator.page(1)
+    except EmptyPage:
+        comments = paginator.page(paginator.num_pages)
+    return render(request, 'Items.html', {'comments': comments, 'item': object, 'form': form})
 
 
 class UserView(TemplateView):
@@ -69,11 +74,8 @@ class UserView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(UserView, self).get_context_data(**kwargs)
         j = User.objects.get(id=kwargs['user_id'])
-        #j = users.objects.filter(id=kwargs['user_id'])
         context['users'] = j
         return context
-
-from django.views.generic.edit import FormView
 
 
 class RegisterFormView(FormView):
@@ -86,52 +88,21 @@ class RegisterFormView(FormView):
        return super(RegisterFormView, self).form_valid(form)
 
 
-
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login
-
-
 class LoginFormView(FormView):
     form_class = AuthenticationForm
     template_name = "login.html"
     success_url = "/"
 
     def form_valid(self, form):
-        # Получаем объект пользователя на основе введённых в форму данных.
         self.user = form.get_user()
-
-        # Выполняем аутентификацию пользователя.
         login(self.request, self.user)
         return super(LoginFormView, self).form_valid(form)
 
 
-from django.contrib.auth import logout
-
-
 class LogoutView(View):
     def get(self, request):
-        # Выполняем выход для пользователя, запросившего данное представление.
         logout(request)
-
-        # После чего, перенаправляем пользователя на главную страницу.
         return HttpResponseRedirect("/")
-
-
-
-#class OrdersView(TemplateView):
-#    template_name = 'Orders.html'
-#    model = Orders
-#
-#    def get(self, request):
-#        def get_context_data(self, **kwargs):
-#            context = super(OrdersView, self).get_context_data(**kwargs)
-#            try:
-#                j = Orders.objects.get(user_id=request.user.id)
-#                #j = users.objects.filter(id=kwargs['user_id'])
-#                context['orders'] = j
-#            except ObjectDoesNotExist:
-#                context['orders'] = 'У вас нет заказов'
-#            return context
 
 
 class OrderListView(TemplateView):
@@ -141,24 +112,17 @@ class OrderListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(OrderListView, self).get_context_data(**kwargs)
         j = Orders.objects.filter(user_id=self.request.user)
-        #j = users.objects.filter(id=kwargs['user_id'])
         context['orders'] = j
         return context	
 
 
 class OrderCreate(CreateView):
 
-    # def dispatch(self, request, *args, **kwargs):
-    #     print(request)
-    #     print(kwargs)
-    #     return super().dispatch(request, *args, **kwargs)
-
     form_class = OrderForm
     success_url = '/orders/'
     template_name = 'order_create.html'
 
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
         context['item'] = Items.objects.get(id=self.kwargs['item_id'])
         return context
@@ -167,17 +131,7 @@ class OrderCreate(CreateView):
         Orders.objects.create(user_id=self.request.user, order_status='p', item_id=Items.objects.get(id=self.kwargs['item_id']), **form.cleaned_data)
         return redirect('/orders/')
 
+
 class OrderDetailsView(DetailView):
     model = Orders
     template_name = 'order_details.html'
-
-#@login_required
-#def ordercreate(request):
-#    form = OrderForm
-#    if request.method == "POST":
-#        if form.is_valid():
-#            Orders.objects.create(user_id=request.user.id, order_status = 'p', **form.cleaned_data)
-#            return HttpResponseRedirect('/orders/')
-#    else:
-#        pass
-#    return render(request, 'order_create.html', {'form': form})

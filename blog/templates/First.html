@@ -3,14 +3,68 @@
 {%  block head_title %}
     Главная страница BookStore
 {% endblock %}
+<style>
+    .well.hover:
+    {
+    text-decoration: none;
+    background: linear-gradient(to bottom, #f4fcff, #d0e3e9); /* Градиент */
+    color: #000
+    }
+    A.hover:
+    {
+    text-decoration: none;
+    }
+
+</style>
 {% block content %}
 
+<br>
+<div class="row"> <div class="col-md-8"><div class="well">
 {% if user.is_authenticated %}
  <div class="center"><h2>Привет, {{user.first_name}}!</h2></div>
 {% endif %}
 {% if user.is_anonymous %}
 <div class="center"><h2>Привет, друг!</h2></div>
 {% endif %}
+<p>Добро пожаловать на BookStore, наш небольшой магазин книг. Наши верные читатели - главное, что есть у нас, и мы заинтересованы в том, чтобы у них был доступ ко всей интересующей их литературе. Наш магазин осуществляет доставку по всей Беларуси менее чем за 2 дня. Мы сотрудничаем со всеми крупными издателями СНГ. </p>
+<br>
+<p>Ознакомиться с перечнем доступных книг ты можешь <a href = "{% url 'items' %}" class="maintext"><button type="button" class="btn btn-sm btn-primary"> Здесь </button></a></p>
+</div><div class="well">&nbsp&nbsp&nbsp&nbsp</div></div>
+<div class = "col-md-1"></div>
+    <div class="col-md-4"><a href="{% url 'item' item_id=randombook.id %}" class="maintext"><div class="well"><p class="center"><b>Случайная книга</b></p>
+    <br>
+    <div class="well"><div class="center"><img src="/media/{{ randombook.item_image }}" width="90"/></div></div><br>
+    <p class="center">
+    <b>{{randombook}}</b><br>
+    <b>Автор:</b> <i>{{randombook.author_id}}</i><br>
+    <b>Категории:</b> {% for genre in randombook.item_genre.all %}{{genre}} {% endfor %}
+    </p></div></a>
+    <div class="well"><i>Если у вас возникли какие-либо затруднения, либо вопросы - пишите нам на электронный ящик <b>info@domainhappy.by</b></i>
+    </div></div></div>
 
 
+
+{% endblock %}
+
+{% block bottombar %}}
+<div id="bottom_bar_black"> <div id="main_container">
+	<div id="header_lower">  <div id="header_content_lowerline">Наши контакты
+	    <div id="header_content_lowerboxcontent">ул. Пушкина, д. 13<br/>
+	     г. Минск<br/>
+        111-22-33<br/>
+        80(29)111-22-33<br/>
+        info@domainhappy.by<br/>
+        www.domainhappy.by<br/>
+        </div>
+	</div>
+          </div>
+
+          <div id="header_lower">  <div id="header_content_lowerline">О нас
+            <div id="header_content_lowerboxcontent">BookStore - магазин книг и печатной продукции. Наши верные читатели - главное, что есть у нас, и мы заинтересованы в том, чтобы у них был доступ ко всей интересующей их литературе. Наш магазин осуществляет доставку по всей Беларуси менее чем за 2 дня. Мы сотрудничаем со всеми крупными издателями СНГ.</div>
+	</div>
+          </div>
+
+
+</div>
+</div>
 {% endblock %}

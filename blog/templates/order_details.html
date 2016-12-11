@@ -10,6 +10,7 @@
     padding: 10px; /* Поля вокруг текста */
 }
 </style>
+{% if user.is_authenticated and object.user_id.id == user.id %}
 <div id="centerLayer">
     <div><b>Номер заказа:</b> {{ object.id }}</div>
     <div><b>Дата заказа:</b> {{ object.order_date }}</div>
@@ -17,4 +18,12 @@
     <div><b>Статус заказа:</b> {{ object.get_order_status_display }}</div>
     <div><b>Заказанная книга:</b> <a href = "{% url 'item' item_id=object.item_id.id %}" class = maintext>{{ object.item_id.item_name }}</a></div>
 </div>
+<br>
+<div id="centerLayer"><i>Если вы передумали и хотите отменить заказ, напишите нам на электронную почту(info@domainhappy.by) с указанием номера Вашего заказа.</i></div>
+{% endif %}
+{% if user.is_anonymous %}
+ <div id="centerLayer">
+    <div class="center">Ой! Кажется, ты не вошел в систему! Пожалуйста, <a href="{% url 'items' %}" class="maintext"><b>войдите</b></a>, чтобы продолжить.</div>
+    </div>
+{% endif %}
 {% endblock %}

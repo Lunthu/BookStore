@@ -10,13 +10,12 @@
 <br>
 <div class="well">
 <p class="center"> <b>Ваши заказы </b></p>
-<table border="0" bgcolor="#fdf5e6">
 
 {% for order in orders %}
 
-    <tr><td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Номер <br> заказа: </b><br> {{ order.id }}</a></td> <td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Заказанная <br> книга</b><br>{{ order.item_id.item_name }} &nbsp</a></td><td><b>Дата заказа: </b><br>{{ order.order_date }} </td> <td><b>Адрес доставки: </b><br>{{ order.order_adress }} &nbsp&nbsp</td> <td><b>Статус:</b><br>{{order.get_order_status_display}}</td></tr>
-    <tr><td>&nbsp</td></tr>
-
+    <div class = "well"><table border="0" bgcolor="#fdf5e6">
+<tr><td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Номер <br> заказа: </b><br> {{ order.id }}</a></td> <td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Заказанная <br> книга</b><br>{{ order.item_id.item_name }} &nbsp</a></td><td><b>Дата заказа: </b><br>{{ order.order_date }} </td> <td><b>Адрес доставки: </b><br>{{ order.order_adress }} &nbsp&nbsp</td> <td><b>Статус:</b><br>{{order.get_order_status_display}}</td></tr>
+    </table></div>
 {% empty %}
 
 
@@ -24,7 +23,7 @@
     <div class="center">У вас нет заказов! Попробуйте поискать что-нибудь в нашем <b><a href="{% url 'items' %}" class="maintext">каталоге</a></b>, может найдете что-нибудь по душе! </div>
     </div>
 {% endfor %}
-</table>
+
 </div>
 {% endif %}
 

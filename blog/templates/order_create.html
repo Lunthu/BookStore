@@ -5,6 +5,7 @@
 {% block content %}
     <br>
     <br>
+{% if user.is_authenticated %}
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-12"><div id="centerLayer"><table border="0"><tr><td><img src="{{ item.item_image.url }}" width="100"/></td><td>&nbsp&nbsp</td>
@@ -32,6 +33,12 @@
       <button type="submit" class="btn btn-primary" value = "save">Заказать</button>
             </div>
     </form>
+{% endif %}
 
-</html>
+
+{% if user.is_anonymous %}
+ <div id="centerLayer">
+    <div class="center">Ой! Кажется, ты не вошел в систему! Пожалуйста, <a href="{% url 'items' %}" class="maintext"><b>авторизируйтесь</b></a>, чтобы продолжить.</div>
+    </div>
+{% endif %}
 {% endblock %}

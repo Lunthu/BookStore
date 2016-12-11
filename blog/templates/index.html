@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 <title>{% block head_title %}{% endblock %}</title>
-<link rel="stylesheet" href="{% static 'css/stylesheet.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'css/stylesheet3.css' %}" type="text/css">
     <!-- Bootstrap core CSS -->
 <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 <link href="{% static 'bootstrap/css/signin.css' %}" rel="stylesheet">
@@ -21,6 +21,10 @@
  A.maintext {
     color: black; /* Темно-красный цвет текста */
    }
+ A.maintext:hover {
+
+     color:black;
+ }
    A:hover {
     text-decoration: underline; /* Добавляем подчеркивание при наведении курсора на ссылку */
     color: white; /* Ссылка красного цвета */
@@ -33,11 +37,11 @@
     text-decoration: none; /* Убираем подчёркивание */
     color: #000; /* Цвет текста */
   }
-   .c:hover {
-    box-shadow: 0 0 5px rgba(0,0,0,0.3); /* Тень */
+   .well:hover {
+
     text-decoration: none;
-    background: linear-gradient(to bottom, #f4fcff, #d0e3e9); /* Градиент */
-    color: #0b0c0f;
+    background: linear-gradient(to bottom, rgb(244, 252, 255), #e8e7e9); /* Градиент */
+    color: #000
    }
 
   </style>
@@ -45,19 +49,19 @@
 
 <body>
 <div id="top_bar_black"> <div id="logo_container"> <div id="logo_image"> </div>  <div id="nav_block">
-        <div class="nav_button" ><a href = {% url 'main' %}> <b>Главная </b></a></div>
-	    <div class="nav_button"> <a href = {% url 'items' %}> <b>Книги </b></a></div>
+        <div class="nav_button" ><a href = "{% url 'main' %}"> <b>Главная </b></a></div>
+	    <div class="nav_button"> <a href = "{% url 'items' %}"> <b>Книги </b></a></div>
     {% if user.is_anonymous %}
 
-        <div class="nav_button"> <a href = {% url 'register' %}> <b>Регистрация</b></a></div>
-		<div class="nav_button"> <a href = {% url 'login' %}> <b>Войти</b></a></div>
+        <div class="nav_button"> <a href = "{% url 'register' %}"> <b>Регистрация</b></a></div>
+		<div class="nav_button"> <a href = "{% url 'login' %}"> <b>Войти</b></a></div>
     {% endif %}
     {% if user.is_authenticated %}
-        <div class="nav_button" link=""> <a href = {% url 'orders' %}><b>Мои заказы</b></a></div>
-        <div class="nav_button"> <a href = {% url 'logout' %}> <b>Выйти </b></a></div>
+        <div class="nav_button" link=""> <a href = "{% url 'orders' %}"><b>Мои заказы</b></a></div>
+        <div class="nav_button"> <a href = "{% url 'logout' %}"> <b>Выйти </b></a></div>
     {% endif %}
     {% if user.is_admin %}
-        <div class="nav_button"> <a href = {% url 'admin' %}> <b>Админка </b></a></div>
+        <div class="nav_button"> <a href = "{% url 'admin' %}"> <b>Админка </b></a></div>
     {% endif %}
 	  </div>
 </div> </div>
@@ -69,29 +73,9 @@
         </div>
         
         
-        
-<div id="bottom_bar_black"> <div id="main_container">
-	<div id="header_lower">  <div id="header_content_lowerline">Наши контакты
-	    <div id="header_content_lowerboxcontent">ул. Пушкина, д. 13<br/>
-	     г. Минск<br/>
-        111-22-33<br/>
-        80(29)111-22-33<br/>
-        info@domainhappy.by<br/>
-        www.domainhappy.by<br/>
-        01982 698 621<br/>
-        </div>
-	</div> 
-          </div>
-          
-          <div id="header_lower">  <div id="header_content_lowerline">О нас
-            <div id="header_content_lowerboxcontent">BookStore - магазин книг и печатной продукции. Наши верные читатели - главное, что есть у нас, и мы заинтересованы в том, чтобы у них был доступ ко всей интересующей их литературе. Наш магазин осуществляет доставку по всей Беларуси менее чем за 2 дня. Мы сотрудничаем со всеми крупными издателями СНГ.</div>
-	</div> 
-          </div>
+{% block bottombar %}
 
-
-</div> 
-</div>
- 
+ {% endblock %}
 
 </body>
 </html>
