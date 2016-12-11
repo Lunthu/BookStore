@@ -4,6 +4,20 @@
     Ваши заказы
 {% endblock %}
 
+{% block navbar %}
+            <li><a href = "{% url 'main' %}"> Главная  </a></li>
+            <li><a href = "{% url 'items' %}">Книги</a></li>
+              {% if user.is_anonymous %}
+            <li><a href = "{% url 'register' %}">Регистрация</a></li>
+            <li><a href = "{% url 'login' %}">Войти</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+            <li class="active"><a href = "{% url 'orders' %}"><b>Мои заказы</b></a></li>
+            <li><a href = "{% url 'logout' %}">Выйти </a></li>
+              {% endif %}
+<li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
+
+{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
@@ -14,7 +28,7 @@
 {% for order in orders %}
 
     <div class = "well"><table border="0" bgcolor="#fdf5e6">
-<tr><td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Номер <br> заказа: </b><br> {{ order.id }}</a></td> <td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Заказанная <br> книга</b><br>{{ order.item_id.item_name }} &nbsp</a></td><td><b>Дата заказа: </b><br>{{ order.order_date }} </td> <td><b>Адрес доставки: </b><br>{{ order.order_adress }} &nbsp&nbsp</td> <td><b>Статус:</b><br>{{order.get_order_status_display}}</td></tr>
+<tr><td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Номер <br> заказа: </b><br> {{ order.id }}</a></td> <td width="120"><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Заказанная <br> книга</b><br>{{ order.item_id.item_name }} &nbsp</a></td><td width="100"><b>Дата заказа: </b><br>{{ order.order_date }} </td> <td width="100"><b>Адрес доставки: </b><br>{{ order.order_adress }} &nbsp&nbsp</td> <td width="150"><b>Статус:</b><br>{{order.get_order_status_display}}</td></tr>
     </table></div>
 {% empty %}
 

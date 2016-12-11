@@ -1,4 +1,19 @@
 {% extends 'index.html' %}
+
+{% block navbar %}
+            <li><a href = "{% url 'main' %}"> Главная  </a></li>
+            <li><a href = "{% url 'items' %}">Книги</a></li>
+              {% if user.is_anonymous %}
+            <li><a href = "{% url 'register' %}">Регистрация</a></li>
+            <li><a href = "{% url 'login' %}">Войти</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+            <li class="active"><a href = "{% url 'orders' %}"><b>Мои заказы</b></a></li>
+            <li><a href = "{% url 'logout' %}">Выйти </a></li>
+              {% endif %}
+<li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
+
+{% endblock %}
 {% block content %}
 <br>
 <br>
@@ -10,6 +25,9 @@
     padding: 10px; /* Поля вокруг текста */
 }
 </style>
+
+
+
 {% if user.is_authenticated and object.user_id.id == user.id %}
 <div id="centerLayer">
     <div><b>Номер заказа:</b> {{ object.id }}</div>

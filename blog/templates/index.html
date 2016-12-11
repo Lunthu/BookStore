@@ -16,7 +16,6 @@
     <style>
  A {
     text-decoration: none; /* Убирает подчеркивание для ссылок */
-     color: white;
    }
  A.maintext {
     color: black; /* Темно-красный цвет текста */
@@ -27,7 +26,6 @@
  }
    A:hover {
     text-decoration: underline; /* Добавляем подчеркивание при наведении курсора на ссылку */
-    color: white; /* Ссылка красного цвета */
    }
    .c {
     border: 1px solid #333; /* Рамка */
@@ -44,27 +42,44 @@
     color: #000
    }
 
+
   </style>
 </head>
 
 <body>
 <div id="top_bar_black"> <div id="logo_container"> <div id="logo_image"> </div>  <div id="nav_block">
-        <div class="nav_button" ><a href = "{% url 'main' %}"> <b>Главная </b></a></div>
-	    <div class="nav_button"> <a href = "{% url 'items' %}"> <b>Книги </b></a></div>
-    {% if user.is_anonymous %}
 
-        <div class="nav_button"> <a href = "{% url 'register' %}"> <b>Регистрация</b></a></div>
-		<div class="nav_button"> <a href = "{% url 'login' %}"> <b>Войти</b></a></div>
-    {% endif %}
-    {% if user.is_authenticated %}
-        <div class="nav_button" link=""> <a href = "{% url 'orders' %}"><b>Мои заказы</b></a></div>
-        <div class="nav_button"> <a href = "{% url 'logout' %}"> <b>Выйти </b></a></div>
-    {% endif %}
-    {% if user.is_admin %}
-        <div class="nav_button"> <a href = "{% url 'admin' %}"> <b>Админка </b></a></div>
-    {% endif %}
-	  </div>
 </div> </div>
+
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            {% block navbar %}
+            <li><a href = "{% url 'main' %}"> Главная  </a></li>
+            <li><a href = "{% url 'items' %}">Книги </a></li>
+              {% if user.is_anonymous %}
+            <li><a href = "{% url 'register' %}">Регистрация</a></li>
+            <li><a href = "{% url 'login' %}">Войти</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+            <li><a href = "{% url 'orders' %}">Мои заказы</a></li>
+            <li><a href = "{% url 'logout' %}">Выйти </a></li>
+              {% endif %}
+          <li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
+              {% endblock %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
         <div id="content_container">
 		{% block content %}
 

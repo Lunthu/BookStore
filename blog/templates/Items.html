@@ -3,10 +3,23 @@
 {%  block head_title %}
     {{ item.item_name }}
 {% endblock %}
-{% block content %}
-{% load staticfiles %}
+{% block navbar %}
+            <li><a href = "{% url 'main' %}"> Главная  </a></li>
+            <li class="active"><a href = "{% url 'items' %}"><b>Книги </b></a></li>
+              {% if user.is_anonymous %}
+            <li><a href = "{% url 'register' %}">Регистрация</a></li>
+            <li><a href = "{% url 'login' %}">Войти</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+            <li><a href = "{% url 'orders' %}">Мои заказы</a></li>
+            <li><a href = "{% url 'logout' %}">Выйти </a></li>
+              {% endif %}
+<li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
 
-<body>
+{% endblock %}
+
+{% block content %}
+
 <br>
 <br>
 <br>
@@ -38,7 +51,7 @@
 {% endif %}
 
 {% if user.is_anonymous %}
-<div class="well"><div class="center">Вам нужно <b><a href = "{% url 'login' %}">войти</a></b>, чтобы оставлять комментарии!</div></div>
+<div class="well"><div class="center">Вам нужно <b><a href = "{% url 'login' %}" class="maintext">войти</a></b>, чтобы оставлять комментарии!</div></div>
 {% endif %}
 <div class="well"><div class="center"><b>Комментарии</b></div>
     {%for comment in comments %}

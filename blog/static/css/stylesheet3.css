@@ -41,7 +41,7 @@ body {
 	margin-left:10px;
 	margin-top:15px;
 	float:left;
-	background-image: url(../images/logo2.gif);
+	background-image: url(../images/logo4.jpg);
 }
 
 #top_bar_black {
@@ -65,7 +65,7 @@ body {
 .nav_button {
 	width: 70px; /*This number you can edit when you need to add more with to fit your text inside the button */
 	color:#FFFFFF;
-	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size:12px;
 	margin-left:5px;
 	margin-right:10px;
@@ -166,3 +166,39 @@ body {
 	background-color: snow;
     padding: 10px; /* Поля вокруг текста */
 }
+    .well.hover
+    {
+    text-decoration: none;
+    background: linear-gradient(to bottom, #f4fcff, #d0e3e9); /* Градиент */
+    color: #000
+    }
+    A.hover {
+    text-decoration: none;
+    }
+	 A {
+    text-decoration: none; /* Убирает подчеркивание для ссылок */
+   }
+ A.maintext {
+    color: black; /* Темно-красный цвет текста */
+   }
+ A.maintext:hover {
+
+     color:black;
+ }
+   A:hover {
+    text-decoration: underline; /* Добавляем подчеркивание при наведении курсора на ссылку */
+    color: white; /* Ссылка красного цвета */
+   }
+   .c {
+    border: 1px solid #333; /* Рамка */
+    display: inline-block;
+    padding: 5px 15px; /* Поля */
+    background-color: snow;
+    text-decoration: none; /* Убираем подчёркивание */
+    color: #000; /* Цвет текста */
+  }
+   .well:hover {
+    text-decoration: none;
+    background: linear-gradient(to bottom, rgb(244, 252, 255), #e8e7e9); /* Градиент */
+    color: #000
+   }
