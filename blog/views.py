@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, FormView, CreateView, DetailView, UpdateView
 from django.views.generic.base import View
-from blog.models import Orders, Items, Comments
+from blog.models import Orders, Items, Comments, Publishers, Authors
 from blog.forms import RegistrationForm, CommentForm, OrderForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -21,6 +21,8 @@ class MainPage(TemplateView):
         context = super(MainPage, self).get_context_data(**kwargs)
         item_list = Items.objects.get(id=random.randint(1,len(list(Items.objects.all()))))
         context['randombook'] = item_list
+        topbooks = Items.objects.filter(item_publisher__id=1)[:5]
+        context['topbooks'] = topbooks
         return context
 
 

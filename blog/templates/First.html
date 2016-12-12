@@ -45,7 +45,19 @@
 <p>Добро пожаловать на BookStore, наш небольшой магазин книг. Наши верные читатели - главное, что есть у нас, и мы заинтересованы в том, чтобы у них был доступ ко всей интересующей их литературе. Наш магазин осуществляет доставку по всей Беларуси менее чем за 2 дня. Мы сотрудничаем со всеми крупными издателями СНГ. </p>
 <br>
 <p>Ознакомиться с перечнем доступных книг ты можешь <a href = "{% url 'items' %}" class="maintext"><button type="button" class="btn btn-sm btn-primary"> Здесь </button></a></p>
-</div><div class="well">&nbsp&nbsp&nbsp&nbsp</div></div>
+</div>
+    <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title center"><b>Лучшие книги от издательства "АСТ"</b></h3>
+            </div>
+            <div class="panel-body">
+              {% for topbook in topbooks %} &nbsp;&nbsp;
+<a href="{% url 'item' item_id=topbook.id %}"><img src="/media/{{ topbook.item_image }}" width="90"/> </a>&nbsp;
+    {%endfor%}
+            </div>
+          </div></div>
+
+
 <div class = "col-md-1"></div>
     <div class="col-md-4"><a href="{% url 'item' item_id=randombook.id %}" class="maintext"><div class="well"><p class="center"><b>Случайная книга</b></p>
     <br>
