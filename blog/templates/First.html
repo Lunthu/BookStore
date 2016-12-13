@@ -35,7 +35,7 @@
 {% block content %}
 
 <br>
-<div class="row"> <div class="col-md-8"><div class="well">
+<div class="row"> <div class="col-md-8"><div class="well"><div class="animated flipInX">
 {% if user.is_authenticated %}
  <div class="center"><h2>Привет, {{user.first_name}}!</h2></div>
 {% endif %}
@@ -45,21 +45,21 @@
 <p>Добро пожаловать на BookStore, наш небольшой магазин книг. Наши верные читатели - главное, что есть у нас, и мы заинтересованы в том, чтобы у них был доступ ко всей интересующей их литературе. Наш магазин осуществляет доставку по всей Беларуси менее чем за 2 дня. Мы сотрудничаем со всеми крупными издателями СНГ. </p>
 <br>
 <p>Ознакомиться с перечнем доступных книг ты можешь <a href = "{% url 'items' %}" class="maintext"><button type="button" class="btn btn-sm btn-primary"> Здесь </button></a></p>
-</div>
+</div></div>
     <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title center"><b>Лучшие книги от издательства "АСТ"</b></h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body"><div class="animated slideInLeft">
               {% for topbook in topbooks %} &nbsp;&nbsp;
 <a href="{% url 'item' item_id=topbook.id %}"><img src="/media/{{ topbook.item_image }}" width="90"/> </a>&nbsp;
     {%endfor%}
-            </div>
+            </div></div>
           </div></div>
 
 
 <div class = "col-md-1"></div>
-    <div class="col-md-4"><a href="{% url 'item' item_id=randombook.id %}" class="maintext"><div class="well"><p class="center"><b>Случайная книга</b></p>
+    <div class="col-md-4"><a href="{% url 'item' item_id=randombook.id %}" class="maintext"><div class="well animated flipInX"><p class="center"><b>Случайная книга</b></p>
     <br>
     <div class="well"><div class="center"><img src="/media/{{ randombook.item_image }}" width="90"/></div></div><br>
     <p class="center">
@@ -67,7 +67,7 @@
     <b>Автор:</b> <i>{{randombook.author_id}}</i><br>
     <b>Категории:</b> {% for genre in randombook.item_genre.all %}{{genre}} {% endfor %}
     </p></div></a>
-    <div class="well"><i>Если у вас возникли какие-либо затруднения, либо вопросы - пишите нам на электронный ящик <b>info@domainhappy.by</b></i>
+    <div class="well animated flipInX"><i>Если у вас возникли какие-либо затруднения, либо вопросы - пишите нам на электронный ящик <b>info@domainhappy.by</b></i>
     </div></div></div>
 
 

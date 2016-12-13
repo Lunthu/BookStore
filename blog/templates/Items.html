@@ -25,7 +25,7 @@
 <br>
 <div class="well">
 <table border="0"><td>
-<div class = "well"><img src=" {{ item.item_image.url}}" /></div></td><td>
+<div class = "well animated zoomIn"><img src=" {{ item.item_image.url}}" /></div></td><td>
  <div><b>&nbsp&nbsp  Название: </b>{{item.item_name}}</div>
  <div><b>&nbsp&nbsp  Автор: </b>{{item.author_id}}</div>
  <div><b>&nbsp&nbsp  Издательство: </b>{{ item.item_publisher }}</div>
@@ -55,9 +55,12 @@
 {% endif %}
 <div class="well"><div class="center"><b>Комментарии</b></div>
     {%for comment in comments %}
-    <div class="well"><i>{{comment.comment_date}}, {{comment.user_id.first_name}} {{comment.user_id.last_name}}</i>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title center"><b><i>{{comment.comment_date}}, {{comment.user_id.first_name}} {{comment.user_id.last_name}}</i></b></h3>
+            </div>
     <br><br>
-    <div>{{comment.comment_text}}</div></div>
+    <div class="panel-body">{{comment.comment_text}}</div></div>
 {% empty %}
     <div class="center">У этой книги еще не было комментариев!</div>
 {% endfor %}
@@ -80,3 +83,4 @@
 </div>
 </div>
 {% endblock %}
+

@@ -22,7 +22,7 @@
 
 <br>
 {% for item in itemlist %}
-    <div class="well">
+    <div class="well animated flipInX">
     <div class="row">
     <div class="col-md-3"><div class="well"><div class="center"><a href="{% url 'item' item_id=item.id %}"><img src="/media/{{ item.item_image }}" width="115"/></a></div></div></div>
     <div class="col-md-8"><div class="center"> <b>{{ item.item_name }}</b></div></b> <br>{{item.item_description}}<br>
