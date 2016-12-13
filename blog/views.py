@@ -1,13 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, FormView, CreateView, DetailView, UpdateView
 from django.views.generic.base import View
-from blog.models import Orders, Items, Comments, Publishers, Authors
+from blog.models import Orders, Items, Comments, Publishers, Authors, Tags
 from blog.forms import RegistrationForm, CommentForm, OrderForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.forms import AuthenticationForm
@@ -42,6 +40,9 @@ class ItemList(TemplateView):
             items = paginator.page(paginator.num_pages)
 
         context['itemlist'] = items
+        context['authors'] = Authors.objects.all()
+        context['publishers'] = Publishers.objects.all()
+        context['tags'] = Tags.objects.all()
         return context
 
 
@@ -137,3 +138,69 @@ class OrderCreate(CreateView):
 class OrderDetailsView(DetailView):
     model = Orders
     template_name = 'order_details.html'
+
+
+class ItemAuthorList(TemplateView):
+    template_name = 'authors_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ItemAuthorList, self).get_context_data(**kwargs)
+        j = Items.objects.filter(author_id__id=kwargs['author_id'])
+        paginator = Paginator(j, 3)
+        page = self.request.GET.get('page')
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
+        context['itemlist'] = items
+        context['authors'] = Authors.objects.all()
+        context['publishers'] = Publishers.objects.all()
+        context['tags'] = Tags.objects.all()
+        return context
+
+
+class ItemPublisherList(TemplateView):
+    template_name = 'authors_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ItemPublisherList, self).get_context_data(**kwargs)
+        j = Items.objects.filter(item_publisher__id=kwargs['publisher_id'])
+        paginator = Paginator(j, 3)
+        page = self.request.GET.get('page')
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
+        context['itemlist'] = items
+        context['authors'] = Authors.objects.all()
+        context['publishers'] = Publishers.objects.all()
+        context['tags'] = Tags.objects.all()
+        return context
+
+
+class ItemTagsList(TemplateView):
+    template_name = 'authors_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ItemTagsList, self).get_context_data(**kwargs)
+        j = Items.objects.filter(item_genre__id=kwargs['tag_id'])
+        paginator = Paginator(j, 3)
+        page = self.request.GET.get('page')
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
+        context['itemlist'] = items
+        context['authors'] = Authors.objects.all()
+        context['publishers'] = Publishers.objects.all()
+        context['tags'] = Tags.objects.all()
+        return context

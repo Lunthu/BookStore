@@ -50,7 +50,7 @@
             <div class="panel-heading">
               <h3 class="panel-title center"><b>Лучшие книги от издательства "АСТ"</b></h3>
             </div>
-            <div class="panel-body"><div class="animated slideInLeft">
+            <div class="panel-body"><div class="animated zoomIn">
               {% for topbook in topbooks %} &nbsp;&nbsp;
 <a href="{% url 'item' item_id=topbook.id %}"><img src="/media/{{ topbook.item_image }}" width="90"/> </a>&nbsp;
     {%endfor%}
