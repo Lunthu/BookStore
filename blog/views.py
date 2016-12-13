@@ -29,8 +29,8 @@ class ItemList(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ItemList, self).get_context_data(**kwargs)
-        j = Items.objects.all()
-        paginator = Paginator(j, 3)
+        j = Items.objects.all().order_by('-id')
+        paginator = Paginator(j, 4)
         page = self.request.GET.get('page')
         try:
             items = paginator.page(page)
@@ -53,6 +53,8 @@ def item_view(request, **kwargs):
         Comments.objects.create(user_id=request.user, item_id=Items.objects.get(id=kwargs['item_id']), **form.cleaned_data)
 
     object = Items.objects.get(id=kwargs['item_id'])
+
+    recommended_objects = Items.objects.filter(item_publisher=object.item_publisher).exclude(id=object.id)[:4]
     comment_list = Comments.objects.filter(item_id=kwargs['item_id']).order_by('-comment_date')
     paginator = Paginator(comment_list, 5)
     page = request.GET.get('page')
@@ -62,7 +64,7 @@ def item_view(request, **kwargs):
         comments = paginator.page(1)
     except EmptyPage:
         comments = paginator.page(paginator.num_pages)
-    return render(request, 'Items.html', {'comments': comments, 'item': object, 'form': form})
+    return render(request, 'Items.html', {'comments': comments, 'item': object, 'recommended_books': recommended_objects, 'form': form})
 
 
 class UserView(TemplateView):
@@ -110,12 +112,15 @@ class LogoutView(View):
 
 class OrderListView(TemplateView):
     template_name = 'Orders.html'
-    model = Orders
+
 
     def get_context_data(self, **kwargs):
         context = super(OrderListView, self).get_context_data(**kwargs)
-        j = Orders.objects.filter(user_id=self.request.user)
+        user_ind = self.request.user
+        j = Orders.objects.filter(user_id=user_ind)
         context['orders'] = j
+        context['order_count'] = Orders.objects.filter(user_id=user_ind).count()
+        context['profile'] = User.objects.get(id=user_ind.id)
         return context	
 
 

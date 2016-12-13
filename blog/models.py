@@ -48,7 +48,7 @@ class Orders(models.Model):
 class Comments(models.Model):
     user_id = models.ForeignKey(User)
     item_id = models.ForeignKey('Items')
-    comment_date = models.DateTimeField(auto_now=True)
+    comment_date = models.DateTimeField(auto_now=True, )
     comment_text = models.TextField(max_length=512)
 
     def __str__(self):

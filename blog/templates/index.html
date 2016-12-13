@@ -15,37 +15,7 @@
 <link href="{% static 'bootstrap/css/dropdown.css' %}" rel="stylesheet">
 <link href="{% static 'bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet">
 <link href="{% static 'animate/animate.css' %}" rel="stylesheet">
-    <style>
- A {
-    text-decoration: none; /* Убирает подчеркивание для ссылок */
-   }
- A.maintext {
-    color: black; /* Темно-красный цвет текста */
-   }
- A.maintext:hover {
 
-     color:black;
- }
-   A:hover {
-    text-decoration: underline; /* Добавляем подчеркивание при наведении курсора на ссылку */
-   }
-   .c {
-    border: 1px solid #333; /* Рамка */
-    display: inline-block;
-    padding: 5px 15px; /* Поля */
-    background-color: snow;
-    text-decoration: none; /* Убираем подчёркивание */
-    color: #000; /* Цвет текста */
-  }
-   .well:hover {
-
-    text-decoration: none;
-    background: linear-gradient(to bottom, rgb(244, 252, 255), #e8e7e9); /* Градиент */
-    color: #000
-   }
-
-
-  </style>
 </head>
 
 <body>
@@ -66,17 +36,6 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             {% block navbar %}
-            <li><a href = "{% url 'main' %}"> Главная  </a></li>
-            <li><a href = "{% url 'items' %}">Книги </a></li>
-              {% if user.is_anonymous %}
-            <li><a href = "{% url 'register' %}">Регистрация</a></li>
-            <li><a href = "{% url 'login' %}">Войти</a></li>
-              {% endif %}
-              {% if user.is_authenticated %}
-            <li><a href = "{% url 'orders' %}">Мои заказы</a></li>
-            <li><a href = "{% url 'logout' %}">Выйти </a></li>
-              {% endif %}
-          <li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
               {% endblock %}
           </ul>
         </div><!--/.nav-collapse -->

@@ -15,6 +15,9 @@
             <li><a href = "{% url 'orders' %}">Мои заказы</a></li>
             <li><a href = "{% url 'logout' %}">Выйти </a></li>
               {% endif %}
+    {% if user.is_superuser %}
+             <li><a href = "/admin/">Админка</a></li>
+               {% endif %}
 <li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
 
 {% endblock %}
@@ -89,7 +92,7 @@
      <div class="pagination">
     <span class="step-links">
         {% if itemlist.has_previous %}
-            <a href="?page={{ itemlist.previous_page_number }}" class="maintext"><b>Предыдущая страница</b></a>
+            <a href="?page={{ itemlist.previous_page_number }}" class="maintext"><button type="button" class="btn btn-sm btn-primary"><b>Предыдущая страница</b></button></a>
         {% endif %}
 
         <span class="current">
@@ -97,7 +100,7 @@
         </span>
 
         {% if itemlist.has_next %}
-            <a href="?page={{ itemlist.next_page_number }}" class="maintext"><b>Следующая страница</b></a>
+            <a href="?page={{ itemlist.next_page_number }}" class="maintext"><button type="button" class="btn btn-sm btn-primary"><b>Следующая страница</b></button></a>
         {% endif %}
     </span>
 </div>

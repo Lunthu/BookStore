@@ -11,6 +11,9 @@
             <li class="active"><a href = "{% url 'orders' %}"><b>Мои заказы</b></a></li>
             <li><a href = "{% url 'logout' %}">Выйти </a></li>
               {% endif %}
+    {% if user.is_superuser %}
+             <li><a href = "/admin/">Админка</a></li>
+               {% endif %}
 <li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
 
 {% endblock %}

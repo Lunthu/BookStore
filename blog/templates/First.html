@@ -3,19 +3,6 @@
 {%  block head_title %}
     Главная страница BookStore
 {% endblock %}
-<style>
-    .well.hover:
-    {
-    text-decoration: none;
-    background: linear-gradient(to bottom, #f4fcff, #d0e3e9); /* Градиент */
-    color: #000
-    }
-    A.hover:
-    {
-    text-decoration: none;
-    }
-
-</style>
 {% block navbar %}
             <li class="active"><a href = "{% url 'main' %}"> <b>Главная  </b></a></li>
             <li><a href = "{% url 'items' %}">Книги </a></li>
@@ -28,6 +15,9 @@
             <li><a href = "{% url 'logout' %}">Выйти </a></li>
 
               {% endif %}
+            {% if user.is_superuser %}
+             <li><a href = "/admin/">Админка</a></li>
+               {% endif %}
 <li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
 
 {% endblock %}
@@ -35,7 +25,7 @@
 {% block content %}
 
 <br>
-<div class="row"> <div class="col-md-8"><div class="well"><div class="animated flipInX">
+<div class="row"> <div class="col-md-8"><div class="well animated flipInX">
 {% if user.is_authenticated %}
  <div class="center"><h2>Привет, {{user.first_name}}!</h2></div>
 {% endif %}
@@ -45,16 +35,16 @@
 <p>Добро пожаловать на BookStore, наш небольшой магазин книг. Наши верные читатели - главное, что есть у нас, и мы заинтересованы в том, чтобы у них был доступ ко всей интересующей их литературе. Наш магазин осуществляет доставку по всей Беларуси менее чем за 2 дня. Мы сотрудничаем со всеми крупными издателями СНГ. </p>
 <br>
 <p>Ознакомиться с перечнем доступных книг ты можешь <a href = "{% url 'items' %}" class="maintext"><button type="button" class="btn btn-sm btn-primary"> Здесь </button></a></p>
-</div></div>
-    <div class="panel panel-default">
+</div>
+    <div class="panel panel-default animated flipInX">
             <div class="panel-heading">
               <h3 class="panel-title center"><b>Лучшие книги от издательства "АСТ"</b></h3>
             </div>
-            <div class="panel-body"><div class="animated zoomIn">
+            <div class="panel-body center">
               {% for topbook in topbooks %} &nbsp;&nbsp;
 <a href="{% url 'item' item_id=topbook.id %}"><img src="/media/{{ topbook.item_image }}" width="90"/> </a>&nbsp;
     {%endfor%}
-            </div></div>
+            </div>
           </div></div>
 
 
