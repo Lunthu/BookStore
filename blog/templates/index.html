@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load staticfiles %}
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+<title>{% block head_title %}{% endblock %}</title>
+<link rel="stylesheet" href="{% static 'css/stylesheet3.css' %}" type="text/css">
+    <!-- Bootstrap core CSS -->
+<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'bootstrap/css/signin.css' %}" rel="stylesheet">
+<link href="{% static 'bootstrap/css/dropdown.css' %}" rel="stylesheet">
+<link href="{% static 'bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet">
+<link href="{% static 'animate/animate.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+<div id="top_bar_black"> <div id="logo_container"> <div id="logo_image"> </div>  <div id="nav_block">
+
+</div> </div>
+
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            {% block navbar %}
+              {% endblock %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+        <div id="content_container">
+		{% block content %}
+
+		{% endblock %}
+    
+        </div>
+        
+        
+{% block bottombar %}
+
+ {% endblock %}
+
+</body>
+</html>

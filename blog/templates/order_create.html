@@ -1,0 +1,62 @@
+{% extends "index.html" %}
+{% block head_title %}
+    Заказ книги
+{% endblock %}
+
+{% block navbar %}
+            <li><a href = "{% url 'main' %}"> Главная  </a></li>
+            <li><a href = "{% url 'items' %}">Книги </b></a></li>
+              {% if user.is_anonymous %}
+            <li><a href = "{% url 'register' %}">Регистрация</a></li>
+            <li><a href = "{% url 'login' %}">Войти</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+            <li class="active"><a href = "{% url 'orders' %}"><b>Мои заказы</b></a></li>
+            <li><a href = "{% url 'logout' %}">Выйти </a></li>
+              {% endif %}
+    {% if user.is_superuser %}
+             <li><a href = "/admin/">Админка</a></li>
+               {% endif %}
+<li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
+
+{% endblock %}
+{% block content %}
+    <br>
+    <br>
+{% if user.is_authenticated %}
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-12"><div id="centerLayer"><table border="0"><tr><td><img src="{{ item.item_image.url }}" width="100"/></td><td>&nbsp&nbsp</td>
+      <td><div><b>Название: </b>{{item.item_name}}</div><div><b>&nbsp&nbsp  Автор: </b>{{item.author_id}}</div>
+          <div><b>&nbsp&nbsp  Цена: </b>{{item.item_price}} руб.</div></td></tr></table></div></div></div>
+
+
+
+    <br>
+
+    <form action="" method="post">
+        <div id="centerLayer" class = "center">
+      {% csrf_token %}
+
+      <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
+        <div class="form-group">
+        <label for="order_adress">Ваш адрес:</label>
+        <input type="text" name="order_adress" class="form-control" id="order_adress" placeholder="Необходим ваш полный адрес: улица, дом, квартира.">
+        </div>
+        {{form.errors}}
+        <div class="form-group">
+        <label for="order_comment">Ваш комментарий:</label>
+        <textarea class="form-control" rows="5" id="order_comment" name="order_comment" placeholder="Ваши пожелания, номер телефона для связи, желаемое время доставки и т.д. Мы свяжемся с Вами, как только определится точное время доставки товара"></textarea>
+        </div>
+      <button type="submit" class="btn btn-primary" value = "save">Заказать</button>
+            </div>
+    </form>
+{% endif %}
+
+
+{% if user.is_anonymous %}
+ <div id="centerLayer">
+    <div class="center">Ой! Кажется, ты не вошел в систему! Пожалуйста, <a href="{% url 'items' %}" class="maintext"><b>авторизируйтесь</b></a>, чтобы продолжить.</div>
+    </div>
+{% endif %}
+{% endblock %}

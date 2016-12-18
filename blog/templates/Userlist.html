@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+{%  block head_title %}
+    Список пользователей
+{% endblock %}
+<body>
+{% for user in userlist %}
+    <div><a href="{% url 'user' user_id=user.id %}">{{ user }}</a></div>
+{% endfor %}
+</body>
+</html>

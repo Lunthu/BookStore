@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+
+{%  block head_title %}
+    Ваши заказы
+{% endblock %}
+
+{% block navbar %}
+            <li><a href = "{% url 'main' %}"> Главная  </a></li>
+            <li><a href = "{% url 'items' %}">Книги</a></li>
+              {% if user.is_anonymous %}
+            <li><a href = "{% url 'register' %}">Регистрация</a></li>
+            <li><a href = "{% url 'login' %}">Войти</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+            <li class="active"><a href = "{% url 'orders' %}"><b>Мои заказы</b></a></li>
+            <li><a href = "{% url 'logout' %}">Выйти </a></li>
+              {% endif %}
+    {% if user.is_superuser %}
+             <li><a href = "/admin/">Админка</a></li>
+               {% endif %}
+<li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
+
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<br>
+<div class="panel panel-default animated flipInX">
+            <div class="panel-heading">
+              <h3 class="panel-title center"><b>Ваш профиль</b></h3>
+            </div>
+<div class="panel-body center">
+<table class="table table-bordered">
+<tbody><tr> <td><b>Имя:</b> </td><td>{{ profile.first_name }}</td></tr>
+<tr> <td><b>Фамилия:</b></td> <td>{{ profile.last_name }}</td></tr>
+<tr> <td><b>Email:</b> </td><td>{{ profile.email }}</td></tr>
+<tr> <td><b>Число сделанных заказов</b>:</td><td> {{ order_count }}</td></tr>
+
+</table>
+</div>
+</div>
+
+
+<div class="well animated fadeIn">
+<p class="center"> <b>Ваши заказы </b></p>
+
+{% for order in orders %}
+
+    <div class = "well"><table border="0" bgcolor="#fdf5e6">
+<tr><td><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Номер <br> заказа: </b><br> {{ order.id }}</a></td> <td width="120"><a href="{% url 'order_details' pk=order.id  %}" class = maintext><b>Заказанная <br> книга</b><br>{{ order.item_id.item_name }} &nbsp</a></td><td width="100"><b>Дата заказа: </b><br>{{ order.order_date }} </td> <td width="100"><b>Адрес доставки: </b><br>{{ order.order_adress }} &nbsp&nbsp</td> <td width="150"><b>Статус:</b><br>{{order.get_order_status_display}}</td></tr>
+    </table></div>
+{% empty %}
+
+
+    <div id="centerLayer">
+    <div class="center">У вас нет заказов! Попробуйте поискать что-нибудь в нашем <b><a href="{% url 'items' %}" class="maintext">каталоге</a></b>, может найдете что-нибудь по душе! </div>
+    </div>
+{% endfor %}
+
+</div>
+{% endif %}
+
+{% if user.is_anonymous %}
+ <div id="centerLayer">
+    <div class="center">Ой! Кажется, ты не вошел в систему! Пожалуйста, <a href="{% url 'items' %}" class="maintext"><b>войдите</b></a>, чтобы продолжить.</div>
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -62,11 +62,12 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.contrib.messages.context_processors.messages'
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'victorlaputskyproject.wsgi.application'
 
@@ -77,11 +78,11 @@ WSGI_APPLICATION = 'victorlaputskyproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'DataBaseBlog',
+        'NAME': 'Project2',
         'HOST': 'localhost',
         'PORT': 5432,
-        'USER': 'Lunthu',
-        'PASSWORD': 123
+        'USER': 'User1',
+        'PASSWORD': 'olp84dc_s7d'
     }
 }
 
@@ -123,3 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
