@@ -1,0 +1,108 @@
+{% extends "index.html" %}
+
+{%  block head_title %}
+   Доступные книги
+{% endblock %}
+
+{% block navbar %}
+            <li><a href = "{% url 'main' %}"> Главная  </a></li>
+            <li class="active"><a href = "{% url 'items' %}"><b>Книги </b></a></li>
+              {% if user.is_anonymous %}
+            <li><a href = "{% url 'register' %}">Регистрация</a></li>
+            <li><a href = "{% url 'login' %}">Войти</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+            <li><a href = "{% url 'orders' %}">Мои заказы</a></li>
+            <li><a href = "{% url 'logout' %}">Выйти </a></li>
+              {% endif %}
+    {% if user.is_superuser %}
+             <li><a href = "/admin/">Админка</a></li>
+               {% endif %}
+<li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
+
+{% endblock %}
+{% block content %}
+ <div class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href = "{% url 'items' %}" class="maintext">Все книги</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">По авторам <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% for author in authors %}
+                        <li><a href="{% url 'author_items' author_id=author.id %}">{{author.author_name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">По издателям<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% for publisher in publishers %}
+                        <li><a href="{% url 'publisher_items' publisher_id=publisher.id %}">{{publisher.publisher_name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">По тегам<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% for tag in tags %}
+                        <li><a href="{% url 'tag_items' tag_id=tag.id %}">{{tag.tag_name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+
+<!-- include javascript, jQuery FIRST -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<br>
+{% for item in itemlist %}
+<div class="panel panel-default animated flipInX">
+    <div class="panel-heading">
+              <h3 class="panel-title center"><b>{{ item.item_name }}</b></h3>
+    </div>
+            <div class="panel-body">    <div class="row">
+    <div class="col-md-3"><div class="well"><div class="center"><a href="{% url 'item' item_id=item.id %}"><img src="/media/{{ item.item_image }}" width="115"/></a></div></div></div>
+    <div class="col-md-8">{{item.item_description}}<br><br><br>
+    <div class="well"><b>Цена:</b>{{ item.item_price }} руб. <b>Статус: </b>{{ item.get_item_status_display }} &nbsp&nbsp
+    <a href="{% url 'item' item_id=item.id %}"><button type="button" class="btn btn-sm btn-primary">Перейти на страницу книги</button></a></div>
+    </div>
+    </div></div>
+          </div>
+{% empty %}
+    <div id="centerLayer" class="center">У нас пока что нет книг по данной категории!</div>
+
+    {% endfor %}
+<div class="center">
+     <div class="pagination">
+    <span class="step-links">
+        {% if itemlist.has_previous %}
+            <a href="?page={{ itemlist.previous_page_number }}" class="maintext"><button type="button" class="btn btn-sm btn-primary"><b>Предыдущая страница</b></button></a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ itemlist.number }} из {{ itemlist.paginator.num_pages }}.
+        </span>
+
+        {% if itemlist.has_next %}
+            <a href="?page={{ itemlist.next_page_number }}" class="maintext"><button type="button" class="btn btn-sm btn-primary"><b>Следующая страница</b></button></a>
+        {% endif %}
+    </span>
+</div>
+</div>
+
+{% endblock %}

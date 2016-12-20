@@ -3,3 +3,6 @@
 *.sqlite3
 blog/__pycache__/
 victorlaputskyproject/__pycache__/
+media/images/*.jpg
+media/images/*.jpeg
+media/images/*.png

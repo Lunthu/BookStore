@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{%  block head_title %}
+    Регистрация
+{% endblock %}
+
+{% block navbar %}
+            <li><a href = "{% url 'main' %}"> Главная  </a></li>
+            <li><a href = "{% url 'items' %}">Книги </a></li>
+              {% if user.is_anonymous %}
+            <li class="active"><a href = "{% url 'register' %}"><b>Регистрация</b></a></li>
+            <li><a href = "{% url 'login' %}">Войти</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+            <li><a href = "{% url 'orders' %}">Мои заказы</a></li>
+            <li><a href = "{% url 'logout' %}">Выйти </a></li>
+              {% endif %}
+<li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
+
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+
+<div class="center">
+
+      <form class="form-signin" role="form" action="", method="post">
+        <h2 class="form-signin-heading">Регистрация</h2>
+         {% csrf_token %}
+
+        <input id="username" type = "charfield" class="form-control" name="username" placeholder="Ваш логин" required autofocus>
+        <i>{{form.username.errors}}</i>
+        {{form.password1.errors}}
+        <input id="password1" type="password" name="password1" class="form-control" placeholder="Ваш пароль" required>
+
+        <input id="password2" type="password" name="password2" class="form-control" placeholder="Повторите ваш пароль" required>
+        <i>{{form.password2.errors}}</i>
+        <input id="email" type="email" name="email" class="form-control" placeholder="Ваша почта" required>
+        {{form.email.errors}}
+
+        <input id="first_name" type = "charfield" name="first_name" class="form-control" placeholder="Ваше Имя" required>
+        {{form.first_name.errors}}
+        <input id="last_name"  type = "charfield" name="last_name" class="form-control" placeholder="Ваша Фамилия" required>
+        {{form.last_name.errors}}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+
+    </div>
+{% endblock %}

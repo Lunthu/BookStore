@@ -1,0 +1,111 @@
+{% extends "index.html" %}
+
+{%  block head_title %}
+    {{ item.item_name }}
+{% endblock %}
+{% block navbar %}
+            <li><a href = "{% url 'main' %}"> Главная  </a></li>
+            <li class="active"><a href = "{% url 'items' %}"><b>Книги </b></a></li>
+              {% if user.is_anonymous %}
+            <li><a href = "{% url 'register' %}">Регистрация</a></li>
+            <li><a href = "{% url 'login' %}">Войти</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+            <li><a href = "{% url 'orders' %}">Мои заказы</a></li>
+            <li><a href = "{% url 'logout' %}">Выйти </a></li>
+              {% endif %}
+    {% if user.is_superuser %}
+             <li><a href = "/admin/">Админка</a></li>
+               {% endif %}
+<li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
+
+{% endblock %}
+
+{% block content %}
+
+<br>
+<br>
+<br>
+<div class="well">
+<table border="0"><td>
+<div class = "well"><img src=" {{ item.item_image.url}}" width="200" class="animated zoomIn"/></div></td><td>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</td>
+<td>
+<table class="table table-bordered">
+<tbody>
+</tr><td><b>&nbsp&nbsp  Название: </b></td><td>{{item.item_name}}</td></tr>
+<tr> <td><b>&nbsp&nbsp  Автор: </b></td><td><a href="{% url 'author_items' author_id=item.author_id.id %}">{{item.author_id}}</a></td></tr>
+<tr> <td><b>&nbsp&nbsp  Издательство: </b></td><td><a href="{% url 'publisher_items' publisher_id=item.item_publisher.id %}">{{ item.item_publisher }}</a></td></tr>
+<tr> <td><b>&nbsp&nbsp  Категории: </b></td><td>{% for genre in item.item_genre.all %}
+    <a href="{% url 'tag_items' tag_id=genre.id %}">{{genre}}</a> {% endfor %}</td></tr>
+<tr> <td><b>&nbsp&nbsp  Цена: </b></td><td>{{item.item_price}} руб.</td></tr>
+<tr> <td><b>&nbsp&nbsp  Статус: </b></td><td>{{item.get_item_status_display}}</td></tr>
+</tbody>
+</table>
+
+    </td></table>
+
+<div><b>Описание: </b>{{item.item_description}}</div>
+<br>
+<div class = "center"><a href="{% url 'create_order' item_id=item.id %}"><button type="button" class="btn btn-primary" name="item_id" value="{{ item.id }}">Купить эту книгу!</button></a></div>
+</div>
+<div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title center"><b>Еще книги от этого издательства</b></h3>
+            </div>
+            <div class="panel-body center">
+              {% for book in recommended_books %} &nbsp;&nbsp;
+<a href="{% url 'item' item_id=book.id %}"><img src="/media/{{ book.item_image }}" width="90"/> </a>&nbsp;
+                {% empty %}
+                  <i>К сожалению, пока что у нас больше нет книг этого издательства. Следите за обновлениями!</i>
+              {%endfor%}
+            </div>
+          </div>
+
+
+
+{% if user.is_authenticated %}
+<div class="well"> <form action="" method="post">
+      {% csrf_token %}
+      <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
+        <div class="form-group">
+        <label for="comment_text">Ваш комментарий:</label>
+        <textarea class="form-control" rows="5" id="comment_text" name="comment_text" placeholder="Ваше мнение о книге, рекомендации"></textarea>
+        </div>
+      <button type="submit" value="save">Оставить комментарий</button>
+    </form></div>
+{% endif %}
+
+{% if user.is_anonymous %}
+<div class="well"><div class="center">Вам нужно <b><a href = "{% url 'login' %}" class="maintext">войти</a></b>, чтобы оставлять комментарии!</div></div>
+{% endif %}
+<div class="well"><div class="center"><b>Комментарии</b></div>
+    {%for comment in comments %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title center"><b><i>{{comment.comment_date}}, {{comment.user_id.first_name}} {{comment.user_id.last_name}}</i></b></h3>
+            </div>
+    <br><br>
+    <div class="panel-body">{{comment.comment_text}}</div></div>
+{% empty %}
+    <div class="center">У этой книги еще не было комментариев!</div>
+{% endfor %}
+    <div class="center">
+     <div class="pagination">
+    <span class="step-links">
+        {% if comments.has_previous %}
+            <a href="?page={{ comments.previous_page_number }}" class="maintext"><b>Предыдущая страница</b></a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ comments.number }} из {{ comments.paginator.num_pages }}.
+        </span>
+
+        {% if comments.has_next %}
+            <a href="?page={{ comments.next_page_number }}" class="maintext"><b>Следующая страница</b></a>
+        {% endif %}
+    </span>
+</div>
+</div>
+</div>
+{% endblock %}
+

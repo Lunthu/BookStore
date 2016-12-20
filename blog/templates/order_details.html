@@ -1,0 +1,50 @@
+{% extends 'index.html' %}
+
+{% block navbar %}
+            <li><a href = "{% url 'main' %}"> Главная  </a></li>
+            <li><a href = "{% url 'items' %}">Книги</a></li>
+              {% if user.is_anonymous %}
+            <li><a href = "{% url 'register' %}">Регистрация</a></li>
+            <li><a href = "{% url 'login' %}">Войти</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+            <li class="active"><a href = "{% url 'orders' %}"><b>Мои заказы</b></a></li>
+            <li><a href = "{% url 'logout' %}">Выйти </a></li>
+              {% endif %}
+    {% if user.is_superuser %}
+             <li><a href = "/admin/">Админка</a></li>
+               {% endif %}
+<li>&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp </li>
+
+{% endblock %}
+{% block content %}
+<br>
+<br>
+<style>
+#centerLayer {
+    margin-left: 30%; /* Отступ слева */
+    width: 40%; /* Ширина слоя */
+    background: #ecf8ff; /* Цвет фона */
+    padding: 10px; /* Поля вокруг текста */
+}
+</style>
+
+
+
+{% if user.is_authenticated and object.user_id.id == user.id %}
+<div id="centerLayer">
+    <div><b>Номер заказа:</b> {{ object.id }}</div>
+    <div><b>Дата заказа:</b> {{ object.order_date }}</div>
+    <div><b>Адрес получателя:</b> {{ object.order_adress }}</div>
+    <div><b>Статус заказа:</b> {{ object.get_order_status_display }}</div>
+    <div><b>Заказанная книга:</b> <a href = "{% url 'item' item_id=object.item_id.id %}" class = maintext>{{ object.item_id.item_name }}</a></div>
+</div>
+<br>
+<div id="centerLayer"><i>Если вы передумали и хотите отменить заказ, напишите нам на электронную почту(info@domainhappy.by) с указанием номера Вашего заказа.</i></div>
+{% endif %}
+{% if user.is_anonymous %}
+ <div id="centerLayer">
+    <div class="center">Ой! Кажется, ты не вошел в систему! Пожалуйста, <a href="{% url 'items' %}" class="maintext"><b>войдите</b></a>, чтобы продолжить.</div>
+    </div>
+{% endif %}
+{% endblock %}
